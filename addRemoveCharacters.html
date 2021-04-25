@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuclear Jalapenos Add/Remove Characters</title>
+</head>
+<body>
+
+<h3><a href="characters.html">Back to Characters</a></h3>
+<h3><a href="index.html">Back to Index</a></h3>
+
+<form>
+    <fieldset>
+        <legend>Add Character</legend>
+        <label for="newName">Name:</label>
+        <input type="text" id="newName" placeholder="Character Name" maxlength="255" required>
+        <button type="submit">Add New Character</button>
+    </fieldset>
+</form>
+<form>
+    <fieldset>
+        <legend>Remove Character</legend>
+        <label for="removeName">Name:</label>
+        <input type="text" id="removeName" placeholder="Character Name" maxlength="255" required>
+        <button type="submit" onclick="alert('Are you sure?')">Remove Character</button>
+    </fieldset>
+</form>
+
+</body>
+</html>

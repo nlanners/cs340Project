@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuclear Jalapenos Add/Remove Spells</title>
+</head>
+<body>
+
+<h3><a href="spells.html">Back to Spells</a></h3>
+<h3><a href="index.html">Back to Index</a></h3>
+
+<form>
+    <fieldset>
+        <legend>Add Spell</legend>
+        <label for="newName">Name:</label>
+        <input type="text" id="newName" placeholder="Spell Name" maxlength="255" required>
+        <label for="buyCost">Purchase Cost:</label>
+        <input type="number" id="buyCost" required>
+        <label for="upgradeCost">Upgrade Cost:</label>
+        <input type="number" id="upgradeCost" required>
+        <label for="strength">Strength:</label>
+        <input type="number" id="strength" required>
+        <label for="character">Give to Character:</label>
+        <input type="text" id="character" maxlength="255" required>
+        <button type="submit">Add New Spell</button>
+    </fieldset>
+</form>
+<form>
+    <fieldset>
+        <legend>Remove Spell</legend>
+        <label for="removeName">Name:</label>
+        <input type="text" id="removeName" placeholder="Spell Name" maxlength="255" required>
+        <button type="submit" onclick="alert('Are you sure?')">Remove Spell</button>
+    </fieldset>
+</form>
+
+</body>
+</html>
