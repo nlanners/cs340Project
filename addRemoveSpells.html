@@ -15,24 +15,37 @@
         <label for="newName">Name:</label>
         <input type="text" id="newName" placeholder="Spell Name" maxlength="255" required>
         <label for="buyCost">Purchase Cost:</label>
-        <input type="number" id="buyCost" required>
+        <input type="number" id="buyCost" value="0" required>
         <label for="upgradeCost">Upgrade Cost:</label>
-        <input type="number" id="upgradeCost" required>
+        <input type="number" id="upgradeCost" value="0" required>
         <label for="strength">Strength:</label>
-        <input type="number" id="strength" required>
-        <label for="character">Give to Character:</label>
-        <input type="text" id="character" maxlength="255" required>
+        <input type="number" id="strength" value="0" required>
+        <label for="character">Give to Character ID:</label>
+        <input type="number" id="character" required>
         <button type="submit">Add New Spell</button>
     </fieldset>
 </form>
 <form>
     <fieldset>
         <legend>Remove Spell</legend>
-        <label for="removeName">Name:</label>
-        <input type="text" id="removeName" placeholder="Spell Name" maxlength="255" required>
+        <label for="spellID">Spell ID:</label>
+        <input type="number" id="spellID" placeholder="0" required>
         <button type="submit" onclick="alert('Are you sure?')">Remove Spell</button>
     </fieldset>
 </form>
+
+<table>
+    <caption>Characters with Empty Spell Slots</caption>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Spell 1</th>
+        <th>Spell 2</th>
+        <th>Spell 3</th>
+    </tr>
+    </thead>
+</table>
 
 </body>
 </html>
