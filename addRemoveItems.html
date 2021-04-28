@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nuclear Jalapenos Add/Remove Items</title>
+</head>
+<body>
+
+	<h3><a href="items.html">Back to Items</a></h3>
+	<h3><a href="index.html">Back to Index</a></h3>
+
+	<form>
+	    <fieldset>
+	        <legend>Add Item</legend>
+	        <label for="newItem">Name:</label>
+	        <input type="text" id="newItem" placeholder="Item Name" maxlength="255" required>
+	        <label for="damage">Damage:</label>
+	        <input type="number" id="damage" value="0" required>
+	        <label for="cost">Cost:</label>
+	        <input type="number" id="cost" value="0" required>
+	        <button type="submit">Add New Item</button>
+	    </fieldset>
+	</form>
+	<form>
+	    <fieldset>
+	        <legend>Remove Item</legend>
+	        <label for="itemID">Item ID:</label>
+	        <input type="number" id="itemID" placeholder="0" required>
+	        <button type="submit" onclick="alert('Are you sure?')">Remove Item</button>
+	    </fieldset>
+	</form>
+
+
+</body>
+</html>

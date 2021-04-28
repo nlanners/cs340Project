@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nuclear Jalapenos Add/Remove Enemies</title>
+</head>
+<body>
+
+	<h3><a href="enemies.html">Back to Enemies</a></h3>
+	<h3><a href="index.html">Back to Index</a></h3>
+
+	<form>
+	    <fieldset>
+	        <legend>Add Enemy</legend>
+	        <label for="newEnemy">Name:</label>
+	        <input type="text" id="newEnemy" placeholder="Enemy Name" maxlength="255" required>
+	        <label for="health">Health:</label>
+	        <input type="number" id="health" value="0" required>
+	        <label for="strength">Strength:</label>
+	        <input type="number" id="strength" value="0" required>
+	        <label for="itemID">Item ID:</label>
+	        <input type="number" id="itemID" value="0" required>
+	        <label for="dropChance">Drop Chance:</label>
+	        <input type="number" id="dropChance" value="0" required>
+	        <label for="money">Money:</label>
+	        <input type="number" id="money" value="0" required>
+	        <button type="submit">Add New Item</button>
+	    </fieldset>
+	</form>
+	<form>
+	    <fieldset>
+	        <legend>Remove Enemy</legend>
+	        <label for="enemyID">Enemy ID:</label>
+	        <input type="number" id="enemyID" placeholder="0" required>
+	        <button type="submit" onclick="alert('Are you sure?')">Remove Enemy</button>
+	    </fieldset>
+	</form>
+
+
+</body>
+</html>

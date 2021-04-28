@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Nuclear Jalapenos Add/Remove Regions</title>
+</head>
+<body>
+
+	<h3><a href="regions.html">Back to Regions</a></h3>
+	<h3><a href="index.html">Back to Index</a></h3>
+
+	<form>
+	    <fieldset>
+	        <legend>Add Region</legend>
+	        <label for="newRegion">Name:</label>
+	        <input type="text" id="newRegion" placeholder="Region Name" maxlength="255" required>
+	    </fieldset>
+	</form>
+	<form>
+	    <fieldset>
+	        <legend>Remove Region</legend>
+	        <label for="regionID">Region ID:</label>
+	        <input type="number" id="regionID" placeholder="0" required>
+	        <button type="submit" onclick="alert('Are you sure?')">Remove Region</button>
+	    </fieldset>
+	</form>
+
+
+</body>
+</html>
