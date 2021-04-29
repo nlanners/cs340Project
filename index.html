@@ -79,48 +79,94 @@
 <h1 class="text-center display-5 mb-3">Welcome to the Nuclear Jalapenos Database Management System</h1>
 <h1 class="text-center display-6 mb-3">Choose your destination below:</h1>
 
-<ul class="list-unstyled text-center">
-    <li>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1460194436988-671f763436b7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="card-img-top">
+      <div class="card-body">
+        <h5 class="card-title">Characters</h5>
         <ul class="list-unstyled">
-            <li><button type="button" class="btn btn-primary btn-lg mb-3" href="characters.html">View Characters</button></li>
-            <li><button type="button" class="btn btn-primary btn-sm mb-3" href="addRemoveCharacters.html">Add/Remove Characters</button></h4></li>
-            <li><button type="button" class="btn btn-primary btn-sm mb-3" href="alterCharacters.html">Alter Characters</button></h4></li>
+            <li>Browse and search existing Characters</li>
+            <a href="characters.html"><button type="button" class="btn btn-primary btn-sm mb-3" >View Characters</button></a>
+            <li>Add new Characters, or remove existing Characters</li>
+            <a href="addRemoveCharacters.html"><button type="button" class="btn btn-primary btn-sm mb-3" >Add/Remove Characters</button></a> 
+            <li>Update existing Characters</li>
+            <a href="alterCharacters.html"><button type="button" class="btn btn-primary btn-sm mb-3" >Alter Characters</button></a>
         </ul>
-    </li>
-    <li>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1478375846947-1abd989ab195?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Spells</h5>
         <ul class="list-unstyled">
-            <li><button type="button" class="btn btn-secondary btn-lg mb-3" href="spells.html">View Spells</button></li>
-            <li><button type="button" class="btn btn-secondary btn-sm mb-3" href="addRemoveSpells.html">Add/Remove Spells</button></li>
-            <li><button type="button" class="btn btn-secondary btn-sm mb-3" href="alterSpells.html">Alter Spells</button></li>
-            <li><button type="button" class="btn btn-secondary btn-sm mb-3" href="characterSpells.html">Give Spells to Characters</button></li>
+            <li>Browse and search existing Spells</li>
+            <a href="spells.html"><button type="button" class="btn btn-secondary btn-sm mb-3" >View Spells</button></a>
+            <li>Add new Spells, or remove existing Spells</li>
+            <a href="addRemoveSpells.html"><button type="button" class="btn btn-secondary btn-sm mb-3" >Add/Remove Spells</button></a>
+            <li>Update existing Spells</li>
+            <a href="alterSpells.html"><button type="button" class="btn btn-secondary btn-sm mb-3" >Alter Spells</button></a>
+            <li>Assign Spells to Characters</li>
+            <a href="characterSpells.html"><button type="button" class="btn btn-secondary btn-sm mb-3" >Spells to Characters</button></a>
         </ul>
-    </li>
-    <li>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1542403764-19e1bb75cc75?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Items</h5>
         <ul class="list-unstyled">
-            <li><button type="button" class="btn btn-success btn-lg mb-3" href="items.html">Items</button></li>
-            <li><button type="button" class="btn btn-success btn-sm mb-3" href="addRemoveItems.html">Add/Remove Items</button></li>
-            <li><button type="button" class="btn btn-success btn-sm mb-3" href="alterItems.html">Alter Items</button></li>
-            <li><button type="button" class="btn btn-success btn-sm mb-3" href="characterItems.html">Give Items to Characters</button></li>
+            <li>Browse and search existing Items</li>
+            <a href="items.html"><button type="button" class="btn btn-success btn-sm mb-3" >Items</button></a>
+            <li>Add new Items, or remove existing Items</li>
+            <a href="addRemoveItems.html"><button type="button" class="btn btn-success btn-sm mb-3" >Add/Remove Items</button></a>
+            <li>Update existing Items</li>
+            <a href="alterItems.html"><button type="button" class="btn btn-success btn-sm mb-3" >Alter Items</button></a>
+            <li>Assign Items to Characters</li>
+            <a href="characterItems.html"><button type="button" class="btn btn-success btn-sm mb-3" >Items to Characters</button></a>
         </ul>
-    </li>
-    <li>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1438786657495-640937046d18?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Regions</h5>
         <ul class="list-unstyled">
-            <li><button type="button" class="btn btn-info btn-lg mb-3" href="regions.html">Regions</button></li>
-            <li><button type="button" class="btn btn-info btn-sm mb-3" href="addRemoveRegions.html">Add/Remove Regions</button></li>
-            <li><button type="button" class="btn btn-info btn-sm mb-3" href="alterRegions.html">Alter Regions</button></li>
+            <li>Browse and search existing Regions</li>
+            <a href="regions.html"><button type="button" class="btn btn-info btn-sm mb-3" >Regions</button></a>
+            <li>Add new Regions, or remove existing Regions</li>
+            <a href="addRemoveRegions.html"><button type="button" class="btn btn-info btn-sm mb-3" >Add/Remove Regions</button></a>
+            <li>Update existing Regions</li>
+            <a href="alterRegions.html"><button type="button" class="btn btn-info btn-sm mb-3" >Alter Regions</button></a>
         </ul>
-    </li>
-    <li>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1561084746-f360502e5abe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="card-img-top" alt="...">
+      <div class="card-body">
+        <h5 class="card-title">Enemies</h5>
         <ul class="list-unstyled">
-            <li><button type="button" class="btn btn-dark btn-lg mb-3" href="enemies.html">Enemies</button></li>
-            <li><button type="button" class="btn btn-dark btn-sm mb-3" href="addRemoveEnemies.html">Add/Remove Enemies</button></li>
-            <li><button type="button" class="btn btn-dark btn-sm mb-3" href="alterEnemies.html">Alter Enemies</button></li>
-            <li><button type="button" class="btn btn-dark btn-sm mb-3" href="RegionEnemies.html">Give Regions to Enemies</button></li>
+            <li>Browse and search existing Enemies</li>
+            <a href="enemies.html"><button type="button" class="btn btn-dark btn-sm mb-3" >Enemies</button></a>
+            <li>Add new Enemies, or remove existing Enemies</li>
+            <a href="addRemoveEnemies.html"><button type="button" class="btn btn-dark btn-sm mb-3">Add/Remove Enemies</button></a>
+            <li>Update existing Enemies</li>
+            <a href="alterEnemies.html"><button type="button" class="btn btn-dark btn-sm mb-3">Alter Enemies</button></a>
+            <li>Assign Enemies to Regions</li>
+            <a href="RegionEnemies.html"><button type="button" class="btn btn-dark btn-sm mb-3">Regions to Enemies</button></a>
         </ul>
-    </li>
-
-</ul>
-
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--
 <div class="container-fluid">
