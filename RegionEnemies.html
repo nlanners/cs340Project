@@ -100,13 +100,34 @@
     </fieldset>
 </form>
 
+<form>
+    <fieldset class="form-control">
+        <legend>Remove Enemy from Region</legend>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="removeEnemyID" class="form-label">Enemy ID:</label>
+                <input type="number" id="removeEnemyID" class="form-control" required>
+            </div>
+            <div class="col-2">
+                <label for="removeRegionID" class="form-label">Character ID:</label>
+                <input type="number" id="removeRegionID" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
 <div class="container-fluid">
     <div class="row">
-        <div class="col-6">
+        <div class="col-3">
             <form>
                 <fieldset>
                     <div class="row mb-3">
-                        <div class="col-4">
+                        <div class="col-6">
                             <input type="text" class="form-control" placeholder="Search Regions by Name...">
                         </div>
                         <div class="col-2">
@@ -116,6 +137,7 @@
                 </fieldset>
             </form>
         </div>
+<!--        <div class="col-1"></div>-->
 
         <div class="col-6">
             <form>
@@ -136,7 +158,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-6">
+        <div class="col-3">
             <table class="table caption-top table-striped table-hover">
                 <caption>Current Regions</caption>
                 <thead>
@@ -147,7 +169,7 @@
                 </thead>
             </table>
         </div>
-        <div class="col-6">
+        <div class="col-5">
             <table class="table caption-top table-striped table-hover">
                 <caption>Current Enemies</caption>
                 <thead>
@@ -159,6 +181,19 @@
                     <th>Item ID</th>
                     <th>Drop Chance</th>
                     <th>Money</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="col-4">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Enemies in Regions</caption>
+                <thead>
+                <tr>
+                    <th>Enemy ID</th>
+                    <th>Enemy Name</th>
+                    <th>Region ID</th>
+                    <th>Region Name</th>
                 </tr>
                 </thead>
             </table>
