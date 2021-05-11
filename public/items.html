@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nuclear Jalapenos Items</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <style>
+        form{
+            margin: 25px 10px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="index.html">NJDMS</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="characters.html" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Characters
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <li><a class="dropdown-item" aria-current="page" href="characters.html">Characters</a></li>
+                        <li><a class="dropdown-item" href="addRemoveCharacters.html">Add/Remove Characters</a></li>
+                        <li><a class="dropdown-item" href="alterCharacters.html">Alter Characters</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="spells.html" id="navbarDropdownMenuLink2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Spells
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink2">
+                        <li><a class="dropdown-item" aria-current="page" href="spells.html">Spells</a></li>
+                        <li><a class="dropdown-item" href="addRemoveSpells.html">Add/Remove Spells</a></li>
+                        <li><a class="dropdown-item" href="alterSpells.html">Alter Spells</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="items.html" id="navbarDropdownMenuLink3" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Items
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink3">
+                        <li><a class="dropdown-item" aria-current="page" href="items.html">Items</a></li>
+                        <li><a class="dropdown-item" href="addRemoveItems.html">Add/Remove Items</a></li>
+                        <li><a class="dropdown-item" href="alterItems.html">Alter Items</a></li>
+                        <li><a class="dropdown-item" href="characterItems.html">Give Items to Characters</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="regions.html" id="navbarDropdownMenuLink4" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Regions
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink4">
+                        <li><a class="dropdown-item" aria-current="page" href="regions.html">Regions</a></li>
+                        <li><a class="dropdown-item" href="addRemoveRegions.html">Add/Remove Regions</a></li>
+                        <li><a class="dropdown-item" href="alterRegions.html">Alter Regions</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="enemies.html" id="navbarDropdownMenuLink5" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Enemies
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink5">
+                        <li><a class="dropdown-item" aria-current="page" href="enemies.html">Enemies</a></li>
+                        <li><a class="dropdown-item" href="addRemoveEnemies.html">Add/Remove Enemies</a></li>
+                        <li><a class="dropdown-item" href="alterEnemies.html">Alter Enemies</a></li>
+                        <li><a class="dropdown-item" href="RegionEnemies.html">Give Enemies to Regions</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+	    <form>
+	        <fieldset>
+	            <div class="row mb-3">
+	                <div class="col-4">
+	                    <input type="text" class="form-control" placeholder="Search Items by Name...">
+	                </div>
+	                <div class="col-2">
+	                    <button type="submit" class="btn btn-success">Search</button>
+	                </div>
+	            </div>
+	        </fieldset>
+	    </form>
+	</div>
+
+	<table class="table caption-top table-striped table-hover">
+	    <caption>Current Items</caption>
+	    <thead>
+	    <tr>
+	        <th>Item ID</th>
+	        <th>Name</th>
+	        <th>Damage</th>
+	        <th>Cost</th>
+	    </tr>
+	    </thead>
+	</table>
+
+	<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+</body>
+</html>
