@@ -1,0 +1,57 @@
+<!-- New Enemy Form -->
+<form>
+    <fieldset class="form-control">
+        <legend>Add Enemy</legend>
+        <div class="row mb-3">
+            <div class="col-4">
+                <label for="newName" class="form-label">Name:</label>
+                <input type="text" id="newName" class="form-control" placeholder="Enemy Name" maxlength="255" required>
+            </div>
+            <div class="col-1">
+                <label for="health" class="form-label">Health:</label>
+                <input type="number" id="health" class="form-control" placeholder="health" value="0" required>
+            </div>
+             <div class="col-1">
+                <label for="strength" class="form-label">Strength:</label>
+                <input type="number" id="strength" class="form-control" value="0" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-1">
+                <label for="itemID" class="form-label">Item ID:</label>
+                <input type="number" id="itemID" class="form-control" value="0" required>
+            </div>
+           <div class="col-1">
+                <label for="dropChance" class="form-label">Drop Chance:</label>
+                <input type="number" id="dropChance" class="form-control" value="0" required>
+            </div>
+            <div class="col-1">
+                <label for="money" class="form-label">Money:</label>
+                <input type="number" id="money" class="form-control" value="0" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col">
+                <button type="submit" class="btn btn-primary">Add New Enemy</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<!-- Remove Enemy Form -->
+<form>
+    <fieldset class="form-control">
+        <legend>Remove Enemy</legend>
+        <div class="row mb-3">
+            <div class="col-1">
+                <label for="enemyID" class="form-label">Enemy ID:</label>
+                <input type="number" id="enemyID" class="form-control" placeholder="0" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')">Remove Enemy</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
