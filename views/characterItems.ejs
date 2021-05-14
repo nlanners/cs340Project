@@ -1,0 +1,133 @@
+<!-- Add Item to Character Form -->
+
+<form>
+    <fieldset class="form-control">
+        <legend>Assign Item to Character</legend>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="itemID" class="form-label">Item ID:</label>
+                <input type="number" id="itemID" class="form-control" required>
+            </div>
+            <div class="col-2">
+                <label for="charID" class="form-label">Character ID:</label>
+                <input type="number" id="charID" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<!-- Delete Item from Character Form -->
+
+<form>
+    <fieldset class="form-control">
+        <legend>Remove Item from Character</legend>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="removeItemID" class="form-label">Item ID:</label>
+                <input type="number" id="removeItemID" class="form-control" required>
+            </div>
+            <div class="col-2">
+                <label for="removeCharID" class="form-label">Character ID:</label>
+                <input type="number" id="removeCharID" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<!-- Character Search Bar -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <form>
+                <fieldset>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Search Characters by Name...">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+<!-- Item Search Bar -->
+        <div class="col-4">
+            <form>
+                <fieldset>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Search Items by Name...">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Characters Table -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Current Characters</caption>
+                <thead>
+                <tr>
+                    <th>Character ID</th>
+                    <th>Character Name</th>
+                    <th>Strength</th>
+                    <th>Money</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+<!-- Items Table -->
+
+        <div class="col-4">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Current Items</caption>
+                <thead>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Damage</th>
+                    <th>Purchase Cost</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+<!-- JOIN table -->
+        <div class="col-4">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Characters with Items</caption>
+                <thead>
+                <tr>
+                    <th>Character ID</th>
+                    <th>Character Name</th>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+    </div>
+</div>

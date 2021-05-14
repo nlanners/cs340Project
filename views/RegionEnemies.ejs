@@ -1,0 +1,130 @@
+<!-- Assign Enemy to Region Form-->
+<form>
+    <fieldset class="form-control">
+        <legend>Assign Enemy to Region</legend>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="enemyID" class="form-label">Enemy ID:</label>
+                <input type="number" id="enemyID" class="form-control" required>
+            </div>
+            <div class="col-2">
+                <label for="regionID" class="form-label">Region ID:</label>
+                <input type="number" id="regionID" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<!-- Remove Enemy from Region -->
+<form>
+    <fieldset class="form-control">
+        <legend>Remove Enemy from Region</legend>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="removeEnemyID" class="form-label">Enemy ID:</label>
+                <input type="number" id="removeEnemyID" class="form-control" required>
+            </div>
+            <div class="col-2">
+                <label for="removeRegionID" class="form-label">Region ID:</label>
+                <input type="number" id="removeRegionID" class="form-control" required>
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-danger">Submit</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
+
+<!-- Region Search Bar -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <form>
+                <fieldset>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <input type="text" class="form-control" placeholder="Search Regions by Name...">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+<!-- Enemy Search Bar -->
+        <div class="col-6">
+            <form>
+                <fieldset>
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <input type="text" class="form-control" placeholder="Search Enemies by Name...">
+                        </div>
+                        <div class="col-2">
+                            <button type="submit" class="btn btn-success">Search</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Regions Table -->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Current Regions</caption>
+                <thead>
+                <tr>
+                    <th>Region ID</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+<!-- Enemies Table -->
+        <div class="col-5">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Current Enemies</caption>
+                <thead>
+                <tr>
+                    <th>Enemy ID</th>
+                    <th>Name</th>
+                    <th>Health</th>
+                    <th>Strength</th>
+                    <th>Item ID</th>
+                    <th>Drop Chance</th>
+                    <th>Money</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+
+<!-- Enemies in Regions Table -->
+        <div class="col-4">
+            <table class="table caption-top table-striped table-hover">
+                <caption>Enemies in Regions</caption>
+                <thead>
+                <tr>
+                    <th>Enemy ID</th>
+                    <th>Enemy Name</th>
+                    <th>Region ID</th>
+                    <th>Region Name</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+

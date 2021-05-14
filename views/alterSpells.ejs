@@ -1,0 +1,36 @@
+<!-- Alter Spell Form -->
+
+<form>
+    <fieldset class="form-control">
+        <legend>Alter Spell</legend>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="spellID" class="form-label">Spell ID:</label>
+                <input type="number" id="spellID" class="form-control" required>
+            </div>
+            <div class="col-4">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" id="name" class="form-control" placeholder="Spell Name" maxlength="255">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label for="buyCost" class="form-label">Purchase Cost:</label>
+                <input type="number" id="buyCost" class="form-control">
+            </div>
+            <div class="col-2">
+                <label for="upgradeCost" class="form-label">Upgrade Cost:</label>
+                <input type="number" id="upgradeCost" class="form-control">
+            </div>
+            <div class="col-2">
+                <label for="strength" class="form-label">Strength:</label>
+                <input type="number" id="strength" class="form-control">
+            </div>
+        </div>
+        <div class="row mb-2">
+            <div class="col-2">
+                <button type="submit" class="btn btn-primary">Alter Spell</button>
+            </div>
+        </div>
+    </fieldset>
+</form>
