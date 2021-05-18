@@ -53,9 +53,11 @@ app.get('/addRemoveCharacters', function(req, res, next) {
 
 app.post('/addRemoveCharacters', function(req, res, next) {
     var context = {result: null};
+    var sql;
+    var data;
     if (req.query.action === 'add') {
-        var sql = 'INSERT INTO Characters (name, health, enemiesKilled, magic, strength, money, regionID) VALUES (?,?,?,?,?,?,?)';
-        var data = [req.body.name, req.body.health, req.body.enemiesKilled, req.body.magic, req.body.strength, req.body.money, req.body.regionID]
+        sql = 'INSERT INTO Characters (name, health, enemiesKilled, magic, strength, money, regionID) VALUES (?,?,?,?,?,?,?)';
+        data = [req.body.name, req.body.health, req.body.enemiesKilled, req.body.magic, req.body.strength, req.body.money, req.body.regionID]
         mysql.pool.query(sql, data, function (err, result) {
             if (err) {
                 next(err);
@@ -67,8 +69,8 @@ app.post('/addRemoveCharacters', function(req, res, next) {
             res.render('addRemoveCharacters.ejs', context);
         });
     } else if (req.query.action === 'delete') {
-        var sql = 'DELETE FROM Characters WHERE characterID=?';
-        var data = [req.body.characterID];
+        sql = 'DELETE FROM Characters WHERE characterID=?';
+        data = [req.body.characterID];
         mysql.pool.query(sql, data, function (err, result) {
             if (err) {
                 next(err);
@@ -148,9 +150,11 @@ app.get('/addRemoveSpells', function(req, res, next) {
 
 app.post('/addRemoveSpells', function(req, res, next) {
     var context = {result: null};
+    var sql;
+    var data;
     if (req.query.action === 'add') {
-        var sql = 'INSERT INTO Spells (name, buyCost, upgradeCost, strength, characterID) VALUES (?,?,?,?,?)';
-        var data = [req.body.name, req.body.buyCost, req.body.upgradeCost, req.body.strength,req.body.characterID];
+        sql = 'INSERT INTO Spells (name, buyCost, upgradeCost, strength, characterID) VALUES (?,?,?,?,?)';
+        data = [req.body.name, req.body.buyCost, req.body.upgradeCost, req.body.strength,req.body.characterID];
         mysql.pool.query(sql, data, function (err, result) {
             if (err) {
                 next(err);
@@ -162,8 +166,8 @@ app.post('/addRemoveSpells', function(req, res, next) {
             res.render('addRemoveSpells.ejs', context);
         });
     } else if (req.query.action === 'delete') {
-        var sql = 'DELETE FROM Spells WHERE spellID=?';
-        var data = [req.body.spellID];
+        sql = 'DELETE FROM Spells WHERE spellID=?';
+        data = [req.body.spellID];
         mysql.pool.query(sql, data, function (err, result) {
             if (err) {
                 next(err);
