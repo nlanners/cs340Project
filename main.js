@@ -67,8 +67,8 @@ app.post('/addRemoveCharacters', function(req, res, next) {
             res.render('addRemoveCharacters.ejs', context);
         });
     } else if (req.query.action === 'delete') {
-        sql = 'DELETE FROM Characters WHERE characterID=?';
-        data = [req.body.characterID];
+        var sql = 'DELETE FROM Characters WHERE characterID=?';
+        var data = [req.body.characterID];
         mysql.pool.query(sql, data, function (err, result) {
             if (err) {
                 next(err);
