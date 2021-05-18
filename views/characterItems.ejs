@@ -95,6 +95,16 @@
                     <th>Money</th>
                 </tr>
                 </thead>
+                <tbody>
+                <% characters.forEach(row=>{ %>
+                    <tr>
+                        <td> <%= row.characterID %> </td>
+                        <td> <%= row.name %> </td>
+                        <td> <%= row.strength %> </td>
+                        <td> <%= row.money %> </td>
+                    </tr>
+                <% }); %>
+                </tbody>
             </table>
         </div>
 
@@ -111,6 +121,16 @@
                     <th>Purchase Cost</th>
                 </tr>
                 </thead>
+                <tbody>
+                <% items.forEach(row=>{ %>
+                    <tr>
+                        <td> <%= row.itemID %> </td>
+                        <td> <%= row.name %> </td>
+                        <td> <%= row.damage %> </td>
+                        <td> <%= row.cost %> </td>
+                    </tr>
+                <% }); %>
+                </tbody>
             </table>
         </div>
 
@@ -126,8 +146,17 @@
                     <th>Item Name</th>
                 </tr>
                 </thead>
+                <tbody>
+                <% joined.forEach(row=>{ %>
+                    <tr>
+                        <td> <%= row.characterID %> </td>
+                        <td> <%= row.charName %> </td>
+                        <td> <%= row.itemID %> </td>
+                        <td> <%= row.itemName %> </td>
+                    </tr>
+                <% }); %>
+                </tbody>
             </table>
         </div>
-
     </div>
 </div>

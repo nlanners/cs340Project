@@ -1,28 +1,28 @@
 <!-- New Spell Form -->
 
-<form>
+<form action="addRemoveSpells?action=add" method="post">
     <fieldset class="form-control">
         <legend>Add Spell</legend>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="newName" class="form-label">Name:</label>
-                <input type="text" id="newName" class="form-control" placeholder="Spell Name" maxlength="255" required>
+                <input type="text" name="name" id="newName" class="form-control" placeholder="Spell Name" maxlength="255" required>
             </div>
             <div class="col-1">
                 <label for="buyCost" class="form-label">Purchase Cost:</label>
-                <input type="number" id="buyCost" class="form-control" value="0" required>
+                <input type="number" name="buyCost" id="buyCost" class="form-control" value="0" required>
             </div>
             <div class="col-1">
                 <label for="upgradeCost" class="form-label">Upgrade Cost:</label>
-                <input type="number" id="upgradeCost" class="form-control" value="0" required>
+                <input type="number" name="upgradeCost" id="upgradeCost" class="form-control" value="0" required>
             </div>
             <div class="col-1">
                 <label for="strength" class="form-label">Strength:</label>
-                <input type="number" id="strength" class="form-control" value="0" required>
+                <input type="number" name="strength" id="strength" class="form-control" value="0" required>
             </div>
             <div class="col-2">
                 <label for="characterID" class="form-label">Give Spell to Character:</label>
-                <input type="number" id="characterID" class="form-control" placeholder="Character ID" required>
+                <input type="number" name="characterID" id="characterID" class="form-control" placeholder="Character ID" required>
             </div>
         </div>
         <div class="row mb-2">
@@ -33,20 +33,22 @@
     </fieldset>
 </form>
 
+<p><%= result %></p>
+
 <!-- Remove Spell Form -->
 
-<form>
+<form action="/addRemoveSpells?action=delete" method="post">
     <fieldset class="form-control">
         <legend>Remove Spell</legend>
         <div class="row mb-3">
             <div class="col-1">
                 <label for="spellID" class="form-label">Spell ID:</label>
-                <input type="number" id="spellID" class="form-control" placeholder="0" required>
+                <input type="number" name="spellID" id="spellID" class="form-control" placeholder="0" required>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')">Remove Spell</button>
+                <button type="submit" class="btn btn-danger">Remove Spell</button>
             </div>
         </div>
     </fieldset>
