@@ -52,7 +52,7 @@
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Search Characters by Name...">
+                            <input type="text" name="charName" id="charName" class="form-control" placeholder="Search Characters by Name...">
                         </div>
                         <div class="col-2">
                             <button type="button" id="charSearch" class="btn btn-success">Search</button>
@@ -68,7 +68,7 @@
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Search Items by Name...">
+                            <input type="text" id="itemName" class="form-control" placeholder="Search Items by Name...">
                         </div>
                         <div class="col-2">
                             <button type="submit" id="itemSearch" class="btn btn-success">Search</button>
@@ -95,7 +95,7 @@
                     <th>Money</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="charBody">
                 <% characters.forEach(row=>{ %>
                     <tr>
                         <td> <%= row.characterID %> </td>
@@ -121,7 +121,7 @@
                     <th>Purchase Cost</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="itemBody">
                 <% items.forEach(row=>{ %>
                     <tr>
                         <td> <%= row.itemID %> </td>
@@ -161,4 +161,4 @@
     </div>
 </div>
 
-<script src="../public/js/characterItemsSearch.js"></script>
+<script src="./js/characterItemsSearch.js"></script>

@@ -16,6 +16,13 @@ var mysql = require('./public/js/sqlPool.js');
 app.set('port', 65535);
 app.set('view engine', 'ejs');
 
+function errorCheck(err) {
+    if(err) {
+        next(err);
+        return;
+    }
+}
+
 app.get('/', function(req, res, next){
     res.render('index.ejs');
 });
@@ -23,11 +30,7 @@ app.get('/', function(req, res, next){
 app.get('/characters', function(req, res, next) {
     var context = {};
     mysql.pool.query('SELECT * FROM Characters', function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
-
+        errorCheck(err);
         context.table = rows;
         res.render('characters.ejs', context);
     });
@@ -36,10 +39,7 @@ app.get('/characters', function(req, res, next) {
 app.post('/characters', function(req, res, next) {
     var context = {};
     mysql.pool.query('SELECT * FROM Characters WHERE name=?', [req.body.search], function(err, rows, fields) {
-        if (err) {
-            next(err);
-            return;
-        }
+        errorCheck(err);
         context.table = rows;
         context.search = req.body;
         res.render('characters.ejs', context);
@@ -59,10 +59,7 @@ app.post('/addRemoveCharacters', function(req, res, next) {
         sql = 'INSERT INTO Characters (name, health, enemiesKilled, magic, strength, money, regionID) VALUES (?,?,?,?,?,?,?)';
         data = [req.body.name, req.body.health, req.body.enemiesKilled, req.body.magic, req.body.strength, req.body.money, req.body.regionID]
         mysql.pool.query(sql, data, function (err, result) {
-            if (err) {
-                next(err);
-                return;
-            }
+            errorCheck(err);
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Added ' + req.body.name;
             }
@@ -72,10 +69,7 @@ app.post('/addRemoveCharacters', function(req, res, next) {
         sql = 'DELETE FROM Characters WHERE characterID=?';
         data = [req.body.characterID];
         mysql.pool.query(sql, data, function (err, result) {
-            if (err) {
-                next(err);
-                return;
-            }
+            errorCheck(err);
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Deleted Character ' + req.body.characterID
             }
@@ -104,14 +98,17 @@ app.get('/alterItems', function(req, res, next) {
 app.get('/characterItems', function(req, res, next) {
     var context = {};
     mysql.pool.query('SELECT characterID, name, strength, money FROM Characters', function(err, rows, fields) {
+        errorCheck(err);
         context.characters = rows;
         mysql.pool.query('SELECT itemID, name, damage, cost FROM Items', function(err, rows, fields) {
+            errorCheck(err);
             context.items = rows;
             mysql.pool.query('SELECT C.characterID, C.name AS charName, I.itemID, I.name AS itemName ' +
                 'FROM Characters C ' +
                 'JOIN CharacterItems CI ON C.characterID = CI.characterID ' +
                 'JOIN Items I ON I.itemID = CI.itemID ' +
                 'ORDER BY C.characterID ASC', function(err, rows, fields) {
+                errorCheck(err);
                 context.joined = rows;
                 res.render('characterItems.ejs', context);
             });
@@ -119,13 +116,31 @@ app.get('/characterItems', function(req, res, next) {
     });
 });
 
+app.post('/characterItems', function(req, res, next) {
+    var context = {};
+    if (req.query.action === 'charSearch') {
+        var sql = 'SELECT characterID, name, strength, money FROM Characters WHERE name=?';
+        var data = req.body.charName;
+        mysql.pool.query(sql, data, function(err, rows, fields) {
+            errorCheck(err);
+            context.table = rows;
+            res.send(context);
+        })
+    } else if (req.query.action === 'itemSearch') {
+        var sql = 'SELECT itemID, name, damage, cost FROM Items WHERE name=?';
+        var data = req.body.itemName;
+        mysql.pool.query(sql, data, function(err, rows, fields) {
+            errorCheck(err);
+            context.table = rows;
+            res.send(context);
+        });
+    }
+});
+
 app.get('/spells', function(req, res, next) {
     var context = {}
     mysql.pool.query('SELECT * FROM Spells', function(err, rows, fields){
-        if(err){
-            next(err);
-            return;
-        }
+        errorCheck(err);
         context.table = rows;
         res.render('spells.ejs', context);
     });
@@ -134,10 +149,7 @@ app.get('/spells', function(req, res, next) {
 app.post('/spells', function(req, res, next) {
     var context = {};
     mysql.pool.query('SELECT * FROM Spells WHERE name=?', [req.body.search], function(err, rows, fields) {
-        if (err) {
-            next(err);
-            return;
-        }
+        errorcheck(err);
         context.table = rows;
         context.search = req.body;
         res.render('spells.ejs', context);
@@ -156,10 +168,7 @@ app.post('/addRemoveSpells', function(req, res, next) {
         sql = 'INSERT INTO Spells (name, buyCost, upgradeCost, strength, characterID) VALUES (?,?,?,?,?)';
         data = [req.body.name, req.body.buyCost, req.body.upgradeCost, req.body.strength,req.body.characterID];
         mysql.pool.query(sql, data, function (err, result) {
-            if (err) {
-                next(err);
-                return;
-            }
+            errorCheck(err);
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Added ' + req.body.name;
             }
@@ -169,10 +178,7 @@ app.post('/addRemoveSpells', function(req, res, next) {
         sql = 'DELETE FROM Spells WHERE spellID=?';
         data = [req.body.spellID];
         mysql.pool.query(sql, data, function (err, result) {
-            if (err) {
-                next(err);
-                return;
-            }
+            errorCheck(err);
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Deleted Spell ' + req.body.spellID;
             }
