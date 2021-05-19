@@ -1,16 +1,24 @@
 <!-- Add Item to Character Form -->
 
-<form>
+<form action="/characterItems?action=add" method="post">
     <fieldset class="form-control">
         <legend>Assign Item to Character</legend>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="itemID" class="form-label">Item ID:</label>
-                <input type="number" id="itemID" class="form-control" required>
+                <select id="itemID" name="itemID" class="form-select" required>
+                    <% itemIDs.forEach(row => { %>
+                        <option value="<%= row.itemID %>"><%= row.itemID %></option>
+                    <% }); %>
+                </select>
             </div>
             <div class="col-2">
                 <label for="charID" class="form-label">Character ID:</label>
-                <input type="number" id="charID" class="form-control" required>
+                <select id="charID" name="characterID" class="form-select" required>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"><%= row.characterID %></option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
@@ -21,6 +29,10 @@
     </fieldset>
 </form>
 
+<% if (typeof(reqStatus) !== 'undefined') { %>
+    <p> <%= reqStatus %> </p>
+        <% } %>
+
 <!-- Delete Item from Character Form -->
 
 <form>
@@ -29,11 +41,19 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="removeItemID" class="form-label">Item ID:</label>
-                <input type="number" id="removeItemID" class="form-control" required>
+                <select id="removeItemID" class="form-select" required>
+                    <% itemIDs.forEach(row => { %>
+                        <option value="<%= row.itemID %>"><%= row.itemID %></option>
+                    <% }); %>
+                </select>
             </div>
             <div class="col-2">
                 <label for="removeCharID" class="form-label">Character ID:</label>
-                <input type="number" id="removeCharID" class="form-control" required>
+                <select id="removeCharID" class="form-select" required>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"><%= row.characterID %></option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
@@ -52,7 +72,7 @@
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" name="charName" id="charName" class="form-control" placeholder="Search Characters by Name...">
+                            <input type="search" name="charName" id="charName" class="form-control" placeholder="Search Characters by Name...">
                         </div>
                         <div class="col-2">
                             <button type="button" id="charSearch" class="btn btn-success">Search</button>
@@ -68,10 +88,10 @@
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" id="itemName" class="form-control" placeholder="Search Items by Name...">
+                            <input type="search" id="itemName" class="form-control" placeholder="Search Items by Name...">
                         </div>
                         <div class="col-2">
-                            <button type="submit" id="itemSearch" class="btn btn-success">Search</button>
+                            <button type="button" id="itemSearch" class="btn btn-success">Search</button>
                         </div>
                     </div>
                 </fieldset>
