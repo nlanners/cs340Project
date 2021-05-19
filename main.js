@@ -23,6 +23,18 @@ function errorCheck(err, next) {
     }
 }
 
+function addCharsDropdowns(res, next, context) {
+    mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
+        errorCheck(err, next);
+        context.characterIDs = rows
+        mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
+            errorCheck(err, next);
+            context.regionIDs = rows;
+            res.render('addRemoveCharacters.ejs', context);
+        });
+    });
+}
+
 app.get('/', function(req, res, next){
     res.render('index.ejs');
 });
@@ -47,14 +59,15 @@ app.post('/characters', function(req, res, next) {
 });
 
 app.get('/addRemoveCharacters', function(req, res, next) {
-
-    res.render('addRemoveCharacters.ejs', {result: null})
-})
+    var context = {result: null};
+    addCharsDropdowns(res, next, context);
+});
 
 app.post('/addRemoveCharacters', function(req, res, next) {
     var context = {result: null};
     var sql;
     var data;
+
     if (req.query.action === 'add') {
         sql = 'INSERT INTO Characters (name, health, enemiesKilled, magic, strength, money, regionID) VALUES (?,?,?,?,?,?,?)';
         data = [req.body.name, req.body.health, req.body.enemiesKilled, req.body.magic, req.body.strength, req.body.money, req.body.regionID]
@@ -63,7 +76,7 @@ app.post('/addRemoveCharacters', function(req, res, next) {
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Added ' + req.body.name;
             }
-            res.render('addRemoveCharacters.ejs', context);
+            addCharsDropdowns(res, next, context);
         });
     } else if (req.query.action === 'delete') {
         sql = 'DELETE FROM Characters WHERE characterID=?';
@@ -73,10 +86,10 @@ app.post('/addRemoveCharacters', function(req, res, next) {
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Deleted Character ' + req.body.characterID
             }
-
-            res.render('addRemoveCharacters.ejs', context);
+            addCharsDropdowns(res, next, context);
         });
     }
+
 });
 
 app.get('/alterCharacters', function(req, res, next) {
@@ -147,7 +160,34 @@ app.post('/characterItems', function(req, res, next) {
         var data = [req.body.characterID, req.body.itemID];
         mysql.pool.query(sql, data, function(err, result) {
             errorCheck(err, next);
-            context.reqStatus = 'Successfully Assigned Item to Character';
+            context.reqStatus = 'Success';
+
+            mysql.pool.query('SELECT C.characterID, C.name AS charName, I.itemID, I.name AS itemName ' +
+                'FROM Characters C ' +
+                'JOIN CharacterItems CI ON C.characterID = CI.characterID ' +
+                'JOIN Items I ON I.itemID = CI.itemID ' +
+                'ORDER BY C.characterID ASC', function(err, rows, fields) {
+                errorCheck(err, next);
+                context.table = rows;
+                res.send(context);
+            })
+        })
+    } else if (req.query.action === 'delete') {
+        var sql = 'DELETE FROM CharacterItems WHERE characterID=? AND itemID=?';
+        var data = [req.body.characterID, req.body.itemID];
+        mysql.pool.query(sql, data, function(err, result) {
+            errorCheck(err, next);
+            context.reqStatus = 'Success';
+
+            mysql.pool.query('SELECT C.characterID, C.name AS charName, I.itemID, I.name AS itemName ' +
+                'FROM Characters C ' +
+                'JOIN CharacterItems CI ON C.characterID = CI.characterID ' +
+                'JOIN Items I ON I.itemID = CI.itemID ' +
+                'ORDER BY C.characterID ASC', function(err, rows, fields) {
+                errorCheck(err, next);
+                context.table = rows;
+                res.send(context);
+            });
         })
     }
 });

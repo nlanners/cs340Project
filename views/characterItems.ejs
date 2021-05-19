@@ -1,6 +1,6 @@
 <!-- Add Item to Character Form -->
 
-<form action="/characterItems?action=add" method="post">
+<form>
     <fieldset class="form-control">
         <legend>Assign Item to Character</legend>
         <div class="row mb-3">
@@ -23,15 +23,13 @@
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="add" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </fieldset>
 </form>
 
-<% if (typeof(reqStatus) !== 'undefined') { %>
-    <p> <%= reqStatus %> </p>
-        <% } %>
+<h4 id="addStatus"></h4>
 
 <!-- Delete Item from Character Form -->
 
@@ -41,28 +39,30 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="removeItemID" class="form-label">Item ID:</label>
-                <select id="removeItemID" class="form-select" required>
+                <select id="removeItemID" name="removeItemID" class="form-select" required>
                     <% itemIDs.forEach(row => { %>
-                        <option value="<%= row.itemID %>"><%= row.itemID %></option>
+                        <option value="<%= row.itemID %>"> <%= row.itemID %> </option>
                     <% }); %>
                 </select>
             </div>
             <div class="col-2">
                 <label for="removeCharID" class="form-label">Character ID:</label>
-                <select id="removeCharID" class="form-select" required>
+                <select id="removeCharID" name="removeCharID" class="form-select" required>
                     <% characterIDs.forEach(row => { %>
-                        <option value="<%= row.characterID %>"><%= row.characterID %></option>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
                     <% }); %>
                 </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger">Submit</button>
+                <button type="submit"  id="delete" class="btn btn-danger">Submit</button>
             </div>
         </div>
     </fieldset>
 </form>
+
+<h4 id="deleteStatus"></h4>
 
 <!-- Character Search Bar -->
 <div class="container-fluid">
@@ -166,7 +166,7 @@
                     <th>Item Name</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="joinedBody">
                 <% joined.forEach(row=>{ %>
                     <tr>
                         <td> <%= row.characterID %> </td>
