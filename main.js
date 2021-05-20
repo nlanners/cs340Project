@@ -23,16 +23,28 @@ function errorCheck(err, next) {
     }
 }
 
-function addCharsDropdowns(res, next, context) {
+function getCharsDropdowns(res, next, context) {
     mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
         errorCheck(err, next);
-        context.characterIDs = rows
+        context.characterIDs = rows;
         mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
             errorCheck(err, next);
             context.regionIDs = rows;
             res.render('addRemoveCharacters.ejs', context);
         });
     });
+}
+
+function getSpellsDropdowns(res, next, context) {
+    mysql.pool.query('SELECT spellID FROM Spells ORDER BY spellID ASC', function(err, rows, fields) {
+        errorCheck(err, next);
+        context.spellIDs = rows;
+        mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
+            errorCheck(err, next);
+            context.characterIDs = rows;
+            res.render('addRemoveSpells.ejs', context);
+        })
+    })
 }
 
 app.get('/', function(req, res, next){
@@ -60,7 +72,7 @@ app.post('/characters', function(req, res, next) {
 
 app.get('/addRemoveCharacters', function(req, res, next) {
     var context = {result: null};
-    addCharsDropdowns(res, next, context);
+    getCharsDropdowns(res, next, context);
 });
 
 app.post('/addRemoveCharacters', function(req, res, next) {
@@ -76,7 +88,7 @@ app.post('/addRemoveCharacters', function(req, res, next) {
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Added ' + req.body.name;
             }
-            addCharsDropdowns(res, next, context);
+            getCharsDropdowns(res, next, context);
         });
     } else if (req.query.action === 'delete') {
         sql = 'DELETE FROM Characters WHERE characterID=?';
@@ -86,7 +98,7 @@ app.post('/addRemoveCharacters', function(req, res, next) {
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Deleted Character ' + req.body.characterID
             }
-            addCharsDropdowns(res, next, context);
+            getCharsDropdowns(res, next, context);
         });
     }
 
@@ -212,7 +224,8 @@ app.post('/spells', function(req, res, next) {
 });
 
 app.get('/addRemoveSpells', function(req, res, next) {
-    res.render('addRemoveSpells.ejs', {result: null});
+    var context = {result: null};
+    getSpellsDropdowns(res, next, context);
 })
 
 app.post('/addRemoveSpells', function(req, res, next) {
@@ -227,7 +240,7 @@ app.post('/addRemoveSpells', function(req, res, next) {
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Added ' + req.body.name;
             }
-            res.render('addRemoveSpells.ejs', context);
+            getSpellsDropdowns(res, next, context);
         });
     } else if (req.query.action === 'delete') {
         sql = 'DELETE FROM Spells WHERE spellID=?';
@@ -237,8 +250,7 @@ app.post('/addRemoveSpells', function(req, res, next) {
             if (result.affectedRows === 1) {
                 context.result = 'Successfully Deleted Spell ' + req.body.spellID;
             }
-
-            res.render('addRemoveSpells.ejs', context);
+            getSpellsDropdowns(res, next, context);
         });
     }
 });
