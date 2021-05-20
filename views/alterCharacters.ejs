@@ -1,38 +1,42 @@
 <!-- Alter Character Form -->
 
-<form>
+<form action="/alterCharacters" method="post">
     <fieldset class="form-control">
         <legend>Alter Character</legend>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="charID" class="form-label">Character ID</label>
-                <input type="number" id="charID" class="form-control" placeholder="0" required>
+                <select name="characterID" id="charID" class="form-select" required>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                    <% }); %>
+                </select>
             </div>
             <div class="col-4">
                 <label for="name" class="form-label">Character Name</label>
-                <input type="text" id="name" class="form-control" maxlength="255" placeholder="Character Name">
+                <input type="text" name="name" id="name" class="form-control" maxlength="255" placeholder="Character Name">
             </div>
             <div class="col-2">
                 <label for="health" class="form-label">Health</label>
-                <input type="number" id="health" class="form-control">
+                <input type="number" name="health" id="health" class="form-control">
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="enemiesKilled" class="form-label">Enemies Killed</label>
-                <input type="number" id="enemiesKilled" class="form-control">
+                <input type="number" name="enemiesKilled" id="enemiesKilled" class="form-control">
             </div>
             <div class="col-2">
                 <label for="magic" class="form-label">Magic Points</label>
-                <input type="number" id="magic" class="form-control">
+                <input type="number" name="magic" id="magic" class="form-control">
             </div>
             <div class="col-2">
                 <label for="strength" class="form-label">Strength</label>
-                <input type="number" id="strength" class="form-control">
+                <input type="number" name="strength" id="strength" class="form-control">
             </div>
             <div class="col-2">
                 <label for="money" class="form-label">Money</label>
-                <input type="number" id="money" class="form-control">
+                <input type="number" name="money" id="money" class="form-control">
             </div>
         </div>
         <div class="row mb-2">
@@ -42,3 +46,7 @@
         </div>
     </fieldset>
 </form>
+
+<% if (result !== null) {%>
+    <h4> <%= result %></h4>
+<% } %>

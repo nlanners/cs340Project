@@ -67,7 +67,7 @@ app.post('/characters', function(req, res, next) {
         context.table = rows;
         context.search = req.body;
         res.render('characters.ejs', context);
-    })
+    });
 });
 
 app.get('/addRemoveCharacters', function(req, res, next) {
@@ -105,8 +105,40 @@ app.post('/addRemoveCharacters', function(req, res, next) {
 });
 
 app.get('/alterCharacters', function(req, res, next) {
-    res.render('alterCharacters.ejs');
-})
+    var context = {result: null};
+    mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+        errorCheck(err, next);
+        context.characterIDs = rows;
+        res.render('alterCharacters.ejs', context);
+    });
+});
+
+app.post('/alterCharacters', function(req, res, next) {
+    var context = {result: null};
+    mysql.pool.query('SELECT * FROM Characters WHERE characterID=?', [req.body.characterID], function(err, result){
+        errorCheck(err, next);
+        if(result.length === 1){
+            var curVals = result[0];
+        }
+        var sql = 'UPDATE Characters SET name=?, health=?, enemiesKilled=?, magic=?, strength=?, money=? WHERE characterID=?';
+        var data = [req.body.name || curVals.name,
+                    req.body.health || curVals.health,
+                    req.body.enemiesKilled || curVals.enemiesKilled,
+                    req.body.magic || curVals.magic,
+                    req.body.strength || curVals.strength,
+                    req.body.money || curVals.money,
+                    req.body.characterID];
+        mysql.pool.query(sql, data, function(err, result){
+            errorCheck(err, next);
+            context.result = 'Successfully Updated Character';
+            mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+                errorCheck(err, next);
+                context.characterIDs = rows;
+                res.render('alterCharacters.ejs', context);
+            });
+        });
+    });
+});
 
 app.get('/items', function(req, res, next) {
     res.render('items.ejs');
