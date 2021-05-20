@@ -2,14 +2,17 @@
 
 <!-- Search Bar -->
 <div class="container-fluid">
-    <form>
+    <form action="/spells" method="post">
         <fieldset>
             <div class="row mb-3">
                 <div class="col-4">
-                    <input type="text" class="form-control" placeholder="Search Spells by Name...">
+                    <input type="search" name="search" class="form-control" placeholder="Search Spells by Name...">
+                </div>
+                <div class="col-1">
+                    <button type="submit" class="btn btn-success">Search</button>
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-success">Search</button>
+                    <button type="submit" formmethod="get" class="btn btn-danger">Reset View</button>
                 </div>
             </div>
         </fieldset>
@@ -29,4 +32,17 @@
         <th>Character</th>
     </tr>
     </thead>
+    <tbody>
+    <% table.forEach(row=>{ %>
+        <tr>
+            <td> <%= row.spellID %> </td>
+            <td> <%= row.name %> </td>
+            <td> <%= row.buyCost %> </td>
+            <td> <%= row.upgradeCost %> </td>
+            <td> <%= row.strength %> </td>
+            <td> <%= row.characterID %> </td>
+        </tr>
+    <% }); %>
+
+    </tbody>
 </table>

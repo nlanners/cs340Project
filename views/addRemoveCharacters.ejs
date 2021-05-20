@@ -1,37 +1,41 @@
 <!-- New Character Form -->
-<form>
+<form action="/addRemoveCharacters?action=add" method="post">
     <fieldset class="form-control">
         <legend>Add Character</legend>
         <div class="row mb-3">
             <div class="col-4">
                 <label for="newName" class="form-label">Name:</label>
-                <input type="text" id="newName" class="form-control" placeholder="Character Name" maxlength="255" required>
+                <input type="text" name="name" id="newName" class="form-control" placeholder="Character Name" maxlength="255" required>
             </div>
             <div class="col-1">
                 <label for="health" class="form-label">Health:</label>
-                <input type="number" id="health" class="form-control" placeholder="health" value="0" required>
+                <input type="number" name="health" id="health" class="form-control" placeholder="health" value="0" required>
             </div>
             <div class="col-1">
                 <label for="enemiesKilled" class="form-label">Enemies Killed:</label>
-                <input type="number" id="enemiesKilled" class="form-control" value="0" required>
+                <input type="number" name="enemiesKilled" id="enemiesKilled" class="form-control" value="0" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-1">
                 <label for="magic" class="form-label">Magic Points:</label>
-                <input type="number" id="magic" class="form-control" value="0" required>
+                <input type="number" name="magic" id="magic" class="form-control" value="0" required>
             </div>
             <div class="col-1">
                 <label for="strength" class="form-label">Strength:</label>
-                <input type="number" id="strength" class="form-control" value="0" required>
+                <input type="number" name="strength" id="strength" class="form-control" value="0" required>
             </div>
             <div class="col-1">
                 <label for="money" class="form-label">Money:</label>
-                <input type="number" id="money" class="form-control" value="0" required>
+                <input type="number" name="money" id="money" class="form-control" value="0" required>
             </div>
             <div class="col-1">
                 <label for="regionID" class="form-label">Region ID:</label>
-                <input type="number" id="regionID" class="form-control" value="0" required>
+                <select name="regionID" id="regionID" class="form-select" required>
+                    <% regionIDs.forEach(row => { %>
+                        <option value="<%= row.regionID %>"> <%= row.regionID %> </option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
@@ -42,20 +46,28 @@
     </fieldset>
 </form>
 
+<% if (result !== null) {%>
+<p> <%= result %></p>
+<% }; %>
+
 <!-- Remove Character Form -->
 
-<form>
+<form action="/addRemoveCharacters?action=delete" method="post">
     <fieldset class="form-control">
         <legend>Remove Character</legend>
         <div class="row mb-3">
             <div class="col-1">
                 <label for="charID" class="form-label">Character ID:</label>
-                <input type="number" id="charID" class="form-control" placeholder="0" required>
+                <select name="characterID" id="charID" class="form-select" required>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')">Remove Character</button>
+                <button type="submit" class="btn btn-danger">Remove Character</button>
             </div>
         </div>
     </fieldset>

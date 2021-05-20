@@ -6,20 +6,30 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="itemID" class="form-label">Item ID:</label>
-                <input type="number" id="itemID" class="form-control" required>
+                <select id="itemID" name="itemID" class="form-select" required>
+                    <% itemIDs.forEach(row => { %>
+                        <option value="<%= row.itemID %>"><%= row.itemID %></option>
+                    <% }); %>
+                </select>
             </div>
             <div class="col-2">
                 <label for="charID" class="form-label">Character ID:</label>
-                <input type="number" id="charID" class="form-control" required>
+                <select id="charID" name="characterID" class="form-select" required>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"><%= row.characterID %></option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" id="add" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </fieldset>
 </form>
+
+<h4 id="addStatus"></h4>
 
 <!-- Delete Item from Character Form -->
 
@@ -29,20 +39,30 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="removeItemID" class="form-label">Item ID:</label>
-                <input type="number" id="removeItemID" class="form-control" required>
+                <select id="removeItemID" name="removeItemID" class="form-select" required>
+                    <% itemIDs.forEach(row => { %>
+                        <option value="<%= row.itemID %>"> <%= row.itemID %> </option>
+                    <% }); %>
+                </select>
             </div>
             <div class="col-2">
                 <label for="removeCharID" class="form-label">Character ID:</label>
-                <input type="number" id="removeCharID" class="form-control" required>
+                <select id="removeCharID" name="removeCharID" class="form-select" required>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger">Submit</button>
+                <button type="submit"  id="delete" class="btn btn-danger">Submit</button>
             </div>
         </div>
     </fieldset>
 </form>
+
+<h4 id="deleteStatus"></h4>
 
 <!-- Character Search Bar -->
 <div class="container-fluid">
@@ -52,10 +72,10 @@
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Search Characters by Name...">
+                            <input type="search" name="charName" id="charName" class="form-control" placeholder="Search Characters by Name...">
                         </div>
                         <div class="col-2">
-                            <button type="submit" class="btn btn-success">Search</button>
+                            <button type="button" id="charSearch" class="btn btn-success">Search</button>
                         </div>
                     </div>
                 </fieldset>
@@ -68,10 +88,10 @@
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Search Items by Name...">
+                            <input type="search" id="itemName" class="form-control" placeholder="Search Items by Name...">
                         </div>
                         <div class="col-2">
-                            <button type="submit" class="btn btn-success">Search</button>
+                            <button type="button" id="itemSearch" class="btn btn-success">Search</button>
                         </div>
                     </div>
                 </fieldset>
@@ -95,6 +115,16 @@
                     <th>Money</th>
                 </tr>
                 </thead>
+                <tbody id="charBody">
+                <% characters.forEach(row=>{ %>
+                    <tr>
+                        <td> <%= row.characterID %> </td>
+                        <td> <%= row.name %> </td>
+                        <td> <%= row.strength %> </td>
+                        <td> <%= row.money %> </td>
+                    </tr>
+                <% }); %>
+                </tbody>
             </table>
         </div>
 
@@ -111,6 +141,16 @@
                     <th>Purchase Cost</th>
                 </tr>
                 </thead>
+                <tbody id="itemBody">
+                <% items.forEach(row=>{ %>
+                    <tr>
+                        <td> <%= row.itemID %> </td>
+                        <td> <%= row.name %> </td>
+                        <td> <%= row.damage %> </td>
+                        <td> <%= row.cost %> </td>
+                    </tr>
+                <% }); %>
+                </tbody>
             </table>
         </div>
 
@@ -126,8 +166,19 @@
                     <th>Item Name</th>
                 </tr>
                 </thead>
+                <tbody id="joinedBody">
+                <% joined.forEach(row=>{ %>
+                    <tr>
+                        <td> <%= row.characterID %> </td>
+                        <td> <%= row.charName %> </td>
+                        <td> <%= row.itemID %> </td>
+                        <td> <%= row.itemName %> </td>
+                    </tr>
+                <% }); %>
+                </tbody>
             </table>
         </div>
-
     </div>
 </div>
+
+<script src="./js/characterItemsSearch.js"></script>
