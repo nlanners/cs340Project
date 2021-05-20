@@ -2,14 +2,14 @@
 
 <!-- Search Bar -->
 <div class="container-fluid">
-    <form>
+    <form action="/items" method="POST">
         <fieldset>
             <div class="row mb-3">
                 <div class="col-4">
-                    <input type="text" class="form-control" placeholder="Search Items by Name...">
+                    <input type="text" class="form-control" placeholder="Search Items by Name..." id="name" name="name">
                 </div>
                 <div class="col-2">
-                    <button type="submit" class="btn btn-success">Search</button>
+                    <button type="submit" class="btn btn-success" id="search">Search</button>
                 </div>
             </div>
         </fieldset>
@@ -27,4 +27,54 @@
 	        <th>Cost</th>
 	    </tr>
     </thead>
+    <tbody>
+        <% results.forEach(function(item) { %>
+            <tr>
+                <td> <%= item.itemID %> </td>
+                <td> <%= item.name %> </td>
+                <td> <%= item.damage %> </td>
+                <td> <%= item.cost %> </td>
+            </tr>
+        <% }) %>
+    </tbody>
 </table>
+
+
+<!--
+<script>
+document.getElementById('search').addEventListener('click', async function(event){
+            var req = new XMLHttpRequest();
+            // CREATING JSON OBJECT TO SEND AS POST REQUEST
+            var payload = {name:null};
+            payload.name = document.getElementById('name').value;
+            req.open('POST', '/items');
+            req.setRequestHeader('Content-Type', 'application/json');
+
+            // PARSING RESPONSE SENT FROM SERVER
+            req.addEventListener('load', function() {
+                if(req.status >= 200 && req.status < 400){
+                    console.log('req sent')
+                }
+            });
+
+            // SENDING JSON STRING AS POST REQUEST
+            req.send(JSON.stringify(payload));
+            event.preventDefault()
+        })
+</script>
+
+<script type="text/javascript">
+    document.getElementById("search").addEventListener("click", async function(event) {
+        // MAKE GET REQUEST TO SEND UPDATED DATA TO DATABASE
+        var name = document.getElementById("name").value
+        fetch('/items?action=filter&name=' + name)
+          .then(response => response.json())
+          .then(data => console.log(data))
+          .catch((error) => {
+              console.log('Error:', error);
+            });
+        event.preventDefault()
+    })
+
+</script>
+-->
