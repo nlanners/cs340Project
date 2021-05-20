@@ -9,30 +9,36 @@
             </div>
             <div class="col-1">
                 <label for="health" class="form-label">Health:</label>
-                <input type="number" id="health" class="form-control" placeholder="health" value="0" required>
+                <input type="number" id="health" class="form-control" placeholder="health" value="0" min="0" required>
             </div>
              <div class="col-1">
                 <label for="strength" class="form-label">Strength:</label>
-                <input type="number" id="strength" class="form-control" value="0" required>
+                <input type="number" id="strength" class="form-control" value="0" min="0" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-1">
                 <label for="itemID" class="form-label">Item ID:</label>
-                <input type="number" id="itemID" class="form-control" value="0">
+                <select class="form-control" id="itemID">
+                    <option> null </option>
+                  <% itemIDs.forEach(function(item) { %>
+
+                    <option> <%= item.itemID %> </option> 
+                 <% }) %>
+                </select>
             </div>
            <div class="col-1">
                 <label for="dropChance" class="form-label">Drop Chance:</label>
-                <input type="number" id="dropChance" class="form-control" value="0">
+                <input type="number" step="0.01" min="0" max="1" id="dropChance" class="form-control">
             </div>
             <div class="col-1">
                 <label for="money" class="form-label">Money:</label>
-                <input type="number" id="money" class="form-control" value="0">
+                <input type="number" id="money" class="form-control" min="0">
             </div>
         </div>
         <div class="row mb-2">
             <div class="col">
-                <button type="submit" class="btn btn-primary">Add New Enemy</button>
+                <button type="submit" class="btn btn-primary" id="addbutton">Add New Enemy</button>
             </div>
         </div>
     </fieldset>
@@ -45,8 +51,11 @@
         <div class="row mb-3">
             <div class="col-1">
                 <label for="enemyID" class="form-label">Enemy ID:</label>
-                <input type="number" id="enemyID" class="form-control" placeholder="0" required>
-            </div>
+                <select class="form-control" id="enemyID">
+                  <% enemyIDs.forEach(function(enemy) { %>
+                    <option> <%= enemy.enemyID %> </option>
+                 <% }) %>
+                </select>
         </div>
         <div class="row mb-2">
             <div class="col-2">
@@ -55,3 +64,34 @@
         </div>
     </fieldset>
 </form>
+
+<script type="text/javascript">
+    
+document.getElementById('addbutton').addEventListener('click', async function(event){
+            var req = new XMLHttpRequest();
+            // CREATING JSON OBJECT TO SEND AS POST REQUEST
+            var payload = {name:null, health:null, strength:null, itemID: null, dropChance: null, money: null};
+            payload.name = document.getElementById('newName').value;
+            payload.health = document.getElementById('health').value;
+            payload.strength = document.getElementById('strength').value;
+            //console.log(document.getElementById('itemID').value, typeof(document.getElementById('itemID').value))
+            if (document.getElementById('itemID').value != 'null') {
+                payload.itemID = document.getElementById('itemID').value;
+            }
+            payload.dropChance = document.getElementById('dropChance').value;
+            payload.money = document.getElementById('money').value;
+            req.open('POST', '/addRemoveEnemies?action=add');
+            req.setRequestHeader('Content-Type', 'application/json');
+
+            // PARSING RESPONSE SENT FROM SERVER
+            req.addEventListener('load', function() {
+                if(req.status >= 200 && req.status < 400){
+                    console.log('req sent')
+                }
+            });
+
+            // SENDING JSON STRING AS POST REQUEST
+            req.send(JSON.stringify(payload));
+        })
+
+</script>
