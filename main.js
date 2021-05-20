@@ -109,32 +109,41 @@ app.get('/alterCharacters', function(req, res, next) {
     mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
         errorCheck(err, next);
         context.characterIDs = rows;
-        res.render('alterCharacters.ejs', context);
+        mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function(err, rows, fields){
+            errorCheck(err, next);
+            context.regionIDs = rows;
+            res.render('alterCharacters.ejs', context);
+        })
     });
 });
 
 app.post('/alterCharacters', function(req, res, next) {
     var context = {result: null};
-    mysql.pool.query('SELECT * FROM Characters WHERE characterID=?', [req.body.characterID], function(err, result){
+    mysql.pool.query('SELECT * FROM Characters WHERE characterID=?', [req.body.characterID], function (err, result) {
         errorCheck(err, next);
-        if(result.length === 1){
+        if (result.length === 1) {
             var curVals = result[0];
         }
-        var sql = 'UPDATE Characters SET name=?, health=?, enemiesKilled=?, magic=?, strength=?, money=? WHERE characterID=?';
+        var sql = 'UPDATE Characters SET name=?, health=?, enemiesKilled=?, magic=?, strength=?, money=?, regionID=? WHERE characterID=?';
         var data = [req.body.name || curVals.name,
-                    req.body.health || curVals.health,
-                    req.body.enemiesKilled || curVals.enemiesKilled,
-                    req.body.magic || curVals.magic,
-                    req.body.strength || curVals.strength,
-                    req.body.money || curVals.money,
-                    req.body.characterID];
-        mysql.pool.query(sql, data, function(err, result){
+            req.body.health || curVals.health,
+            req.body.enemiesKilled || curVals.enemiesKilled,
+            req.body.magic || curVals.magic,
+            req.body.strength || curVals.strength,
+            req.body.money || curVals.money,
+            req.body.regionID || curVals.regionID,
+            req.body.characterID];
+        mysql.pool.query(sql, data, function (err, result) {
             errorCheck(err, next);
             context.result = 'Successfully Updated Character';
-            mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+            mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function (err, rows, fields) {
                 errorCheck(err, next);
                 context.characterIDs = rows;
-                res.render('alterCharacters.ejs', context);
+                mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
+                    errorCheck(err, next);
+                    context.regionIDs = rows;
+                    res.render('alterCharacters.ejs', context);
+                });
             });
         });
     });
@@ -288,7 +297,48 @@ app.post('/addRemoveSpells', function(req, res, next) {
 });
 
 app.get('/alterSpells', function(req, res, next) {
-    res.render('alterSpells.ejs');
+    var context = {result: null};
+    mysql.pool.query('SELECT spellID FROM Spells ORDER BY spellID ASC', function(err, rows, fields){
+        errorCheck(err, next);
+        context.spellIDs = rows;
+        mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+            errorCheck(err, next);
+            context.characterIDs = rows;
+            res.render('alterSpells.ejs', context);
+        });
+    });
+});
+
+app.post('/alterSpells', function(req, res, next) {
+    var context = {result: null};
+    mysql.pool.query('SELECT * FROM Spells WHERE spellID=?', [req.body.spellID], function(err, result){
+        errorCheck(err, next);
+        if (result.length === 1){
+            var curVals = result[0];
+        }
+        var sql = 'UPDATE Spells SET name=?, buyCost=?, upgradeCost=?, strength=?, characterID=? WHERE spellID=?'
+        var data = [
+            req.body.name || curVals.name,
+            req.body.buyCost || curVals.buyCost,
+            req.body.upgradeCost || curVals.upgradeCost,
+            req.body.strength || curVals.strength,
+            req.body.characterID || curVals.characterID,
+            req.body.spellID || curVals.spellID
+        ]
+        mysql.pool.query(sql, data, function(err, result) {
+            errorCheck(err, next);
+            context.result = 'Successfully Updated Spell';
+            mysql.pool.query('SELECT spellID FROM Spells ORDER BY spellID ASC', function(err, rows, fields){
+                errorCheck(err, next);
+                context.spellIDs = rows;
+                mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+                    errorCheck(err, next);
+                    context.characterIDs = rows;
+                    res.render('alterSpells.ejs', context);
+                });
+            });
+        });
+    });
 })
 
 app.get('/enemies', function(req, res, next) {

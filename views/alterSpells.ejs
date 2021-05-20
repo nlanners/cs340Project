@@ -1,30 +1,43 @@
 <!-- Alter Spell Form -->
 
-<form>
+<form action="alterSpells" method="post">
     <fieldset class="form-control">
         <legend>Alter Spell</legend>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="spellID" class="form-label">Spell ID:</label>
-                <input type="number" id="spellID" class="form-control" required>
+                <select name="spellID" id="spellID" class="form-select" required>
+                    <% spellIDs.forEach(row => { %>
+                        <option value="<%= row.spellID %>"> <%= row.spellID %> </option>
+                    <% }); %>
+                </select>
             </div>
             <div class="col-4">
                 <label for="name" class="form-label">Name:</label>
-                <input type="text" id="name" class="form-control" placeholder="Spell Name" maxlength="255">
+                <input type="text" name="name" id="name" class="form-control" placeholder="Spell Name" maxlength="255">
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="buyCost" class="form-label">Purchase Cost:</label>
-                <input type="number" id="buyCost" class="form-control">
+                <input type="number" name="buyCost" id="buyCost" class="form-control">
             </div>
             <div class="col-2">
                 <label for="upgradeCost" class="form-label">Upgrade Cost:</label>
-                <input type="number" id="upgradeCost" class="form-control">
+                <input type="number" name="upgradeCost" id="upgradeCost" class="form-control">
             </div>
             <div class="col-2">
                 <label for="strength" class="form-label">Strength:</label>
-                <input type="number" id="strength" class="form-control">
+                <input type="number" name="strength" id="strength" class="form-control">
+            </div>
+            <div class="col-2">
+                <label for="character" class="form-label">Character ID:</label>
+                <select name="characterID" id="characterID" class="form-select">
+                    <option></option>
+                    <% characterIDs.forEach(row => { %>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                    <% }); %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
@@ -34,3 +47,7 @@
         </div>
     </fieldset>
 </form>
+
+<% if (result !== null) {%>
+    <h4> <%= result %></h4>
+<% } %>
