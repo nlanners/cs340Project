@@ -5,7 +5,11 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="itemID" class="form-label">Item ID:</label>
-                <input type="number" id="itemID" class="form-control" required>
+                <select class="form-control" id="itemID">
+                  <% itemIDs.forEach(function(item) { %>
+                    <option> <%= item %> </option>
+                 <% }) %>
+                </select>
             </div>
             <div class="col-4">
                 <label for="name" class="form-label">Name:</label>
@@ -24,8 +28,34 @@
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-primary">Alter Item</button>
+                <button type="submit" class="btn btn-primary" id='button'>Alter Item</button>
             </div>
         </div>
     </fieldset>
 </form>
+
+<script type="text/javascript">
+    
+document.getElementById('button').addEventListener('click', async function(event){
+            var req = new XMLHttpRequest();
+            // CREATING JSON OBJECT TO SEND AS POST REQUEST
+            var payload = {id:null, name:null, damage:null, cost:null};
+            payload.id = document.getElementById('itemID').value;
+            payload.name = document.getElementById('name').value;
+            payload.damage = document.getElementById('damage').value;
+            payload.cost = document.getElementById('cost').value
+            req.open('POST', '/alterItems');
+            req.setRequestHeader('Content-Type', 'application/json');
+
+            // PARSING RESPONSE SENT FROM SERVER
+            req.addEventListener('load', function() {
+                if(req.status >= 200 && req.status < 400){
+                    console.log('req sent')
+                }
+            });
+
+            // SENDING JSON STRING AS POST REQUEST
+            req.send(JSON.stringify(payload));
+        })
+
+</script>
