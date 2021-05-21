@@ -19,7 +19,7 @@
         <div class="row mb-3">
             <div class="col-1">
                 <label for="itemID" class="form-label">Item ID:</label>
-                <select class="form-control" id="itemID">
+                <select class="form-select" id="itemID">
                     <option> null </option>
                   <% itemIDs.forEach(function(item) { %>
 
@@ -51,11 +51,12 @@
         <div class="row mb-3">
             <div class="col-1">
                 <label for="enemyID" class="form-label">Enemy ID:</label>
-                <select class="form-control" id="enemyID">
+                <select class="form-select" id="enemyID">
                   <% enemyIDs.forEach(function(enemy) { %>
                     <option> <%= enemy.enemyID %> </option>
                  <% }) %>
                 </select>
+            </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
