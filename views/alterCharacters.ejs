@@ -8,7 +8,7 @@
                 <label for="charID" class="form-label">Character ID</label>
                 <select name="characterID" id="charID" class="form-select" required>
                     <% characterIDs.forEach(row => { %>
-                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
@@ -43,7 +43,7 @@
                 <select name="regionID" id="regionID" class="form-select">
                     <option></option>
                     <% regionIDs.forEach(row => { %>
-                        <option value="<%= row.regionID %>"> <%= row.regionID %> </option>
+                        <option value="<%= row.regionID %>"> <%= row.regionID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
