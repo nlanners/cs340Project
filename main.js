@@ -26,11 +26,11 @@ function errorCheck(err, next) {
 // queries to create FK dropdowns in addRemoveCharacters
 function getCharsDropdowns(res, next, context) {
     // characterID dropdown
-    mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
+    mysql.pool.query('SELECT characterID, name FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
         errorCheck(err, next);
         context.characterIDs = rows;
         // regionID dropdown
-        mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
+        mysql.pool.query('SELECT regionID, name FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
             errorCheck(err, next);
             context.regionIDs = rows;
             res.render('addRemoveCharacters.ejs', context);
@@ -41,11 +41,11 @@ function getCharsDropdowns(res, next, context) {
 // queries to create FK dropdowns in addRemoveSpells
 function getSpellsDropdowns(res, next, context) {
     // spellID dropdown
-    mysql.pool.query('SELECT spellID FROM Spells ORDER BY spellID ASC', function(err, rows, fields) {
+    mysql.pool.query('SELECT spellID, name FROM Spells ORDER BY spellID ASC', function(err, rows, fields) {
         errorCheck(err, next);
         context.spellIDs = rows;
         // characterID dropdown
-        mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
+        mysql.pool.query('SELECT characterID, name FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
             errorCheck(err, next);
             context.characterIDs = rows;
             res.render('addRemoveSpells.ejs', context);
@@ -70,12 +70,13 @@ app.get('/characters', function(req, res, next) {
 
 app.post('/characters', function(req, res, next) {
     var context = {};
-    mysql.pool.query('SELECT * FROM Characters WHERE name=?', [req.body.search], function(err, rows, fields) {
+    var search = '%' + req.body.search + '%';
+    mysql.pool.query('SELECT * FROM Characters WHERE name LIKE ?', [search], function(err, rows, fields) {
         errorCheck(err, next);
         context.table = rows;
         context.search = req.body;
         res.render('characters.ejs', context);
-    })
+    });
 });
 
 // ADD/REMOVE CHARCTERS
@@ -93,9 +94,6 @@ app.post('/addRemoveCharacters', function(req, res, next) {
     if (req.query.action === 'add') {
         var regionID = req.body.regionID;
         console.log(regionID);
-        if (regionID === 'null') {
-            regionID = null;
-        }
         sql = 'INSERT INTO Characters (name, health, enemiesKilled, magic, strength, money, regionID) VALUES (?,?,?,?,?,?,?)';
         data = [req.body.name, req.body.health, req.body.enemiesKilled, req.body.magic, req.body.strength, req.body.money, regionID]
         mysql.pool.query(sql, data, function (err, result) {
@@ -120,8 +118,49 @@ app.post('/addRemoveCharacters', function(req, res, next) {
 
 // ALTER CHARACTERS
 app.get('/alterCharacters', function(req, res, next) {
-    res.render('alterCharacters.ejs');
-})
+    var context = {result: null};
+    mysql.pool.query('SELECT characterID, name FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+        errorCheck(err, next);
+        context.characterIDs = rows;
+        mysql.pool.query('SELECT regionID, name FROM Regions ORDER BY regionID ASC', function(err, rows, fields){
+            errorCheck(err, next);
+            context.regionIDs = rows;
+            res.render('alterCharacters.ejs', context);
+        })
+    });
+});
+
+app.post('/alterCharacters', function(req, res, next) {
+    var context = {result: null};
+    mysql.pool.query('SELECT * FROM Characters WHERE characterID=?', [req.body.characterID], function (err, result) {
+        errorCheck(err, next);
+        if (result.length === 1) {
+            var curVals = result[0];
+        }
+        var sql = 'UPDATE Characters SET name=?, health=?, enemiesKilled=?, magic=?, strength=?, money=?, regionID=? WHERE characterID=?';
+        var data = [req.body.name || curVals.name,
+            req.body.health || curVals.health,
+            req.body.enemiesKilled || curVals.enemiesKilled,
+            req.body.magic || curVals.magic,
+            req.body.strength || curVals.strength,
+            req.body.money || curVals.money,
+            req.body.regionID || curVals.regionID,
+            req.body.characterID];
+        mysql.pool.query(sql, data, function (err, result) {
+            errorCheck(err, next);
+            context.result = 'Successfully Updated Character';
+            mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function (err, rows, fields) {
+                errorCheck(err, next);
+                context.characterIDs = rows;
+                mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
+                    errorCheck(err, next);
+                    context.regionIDs = rows;
+                    res.render('alterCharacters.ejs', context);
+                });
+            });
+        });
+    });
+});
 
 // ITEMS
 app.get('/items', function(req, res, next) {
@@ -229,11 +268,11 @@ app.post('/alterItems', function(req, res, next) {
 app.get('/characterItems', function(req, res, next) {
     var context = {};
     // characters table
-    mysql.pool.query('SELECT characterID, name, strength, money FROM Characters', function(err, rows, fields) {
+    mysql.pool.query('SELECT characterID, name, strength, money FROM Characters ORDER BY characterID ASC', function(err, rows, fields) {
         errorCheck(err, next);
         context.characters = rows;
         // items table
-        mysql.pool.query('SELECT itemID, name, damage, cost FROM Items', function(err, rows, fields) {
+        mysql.pool.query('SELECT itemID, name, damage, cost FROM Items ORDER BY itemID ASC', function(err, rows, fields) {
             errorCheck(err, next);
             context.items = rows;
             // character and item tables joined
@@ -244,17 +283,7 @@ app.get('/characterItems', function(req, res, next) {
                 'ORDER BY C.characterID ASC', function(err, rows, fields) {
                 errorCheck(err, next);
                 context.joined = rows;
-                // characterID dropdown
-                mysql.pool.query('SELECT characterID from Characters ORDER BY characterID ASC', function(err, rows, fields) {
-                    errorCheck(err, next);
-                    context.characterIDs = rows;
-                    // itemID dropdown
-                    mysql.pool.query('SELECT itemID from Items ORDER BY itemID ASC', function(err, rows, fields) {
-                        errorCheck(err, next);
-                        context.itemIDs = rows;
-                        res.render('characterItems.ejs', context);
-                    });
-                });
+                res.render('characterItems.ejs', context);
             });
         });
     });
@@ -264,8 +293,8 @@ app.post('/characterItems', function(req, res, next) {
     var context = {};
     // search character table
     if (req.query.action === 'charSearch') {
-        var sql = 'SELECT characterID, name, strength, money FROM Characters WHERE name=?';
-        var data = req.body.charName;
+        var sql = 'SELECT characterID, name, strength, money FROM Characters WHERE name LIKE ?';
+        var data = '%' + req.body.charName + '%';
         mysql.pool.query(sql, data, function(err, rows, fields) {
             errorCheck(err, next);
             context.table = rows;
@@ -273,8 +302,8 @@ app.post('/characterItems', function(req, res, next) {
         })
     // search item table
     } else if (req.query.action === 'itemSearch') {
-        var sql = 'SELECT itemID, name, damage, cost FROM Items WHERE name=?';
-        var data = req.body.itemName;
+        var sql = 'SELECT itemID, name, damage, cost FROM Items WHERE name LIKE ?';
+        var data = '%' + req.body.itemName + '%';
         mysql.pool.query(sql, data, function(err, rows, fields) {
             errorCheck(err, next);
             context.table = rows;
@@ -331,7 +360,8 @@ app.get('/spells', function(req, res, next) {
 
 app.post('/spells', function(req, res, next) {
     var context = {};
-    mysql.pool.query('SELECT * FROM Spells WHERE name=?', [req.body.search], function(err, rows, fields) {
+    var search = '%' + req.body.search +'%';
+    mysql.pool.query('SELECT * FROM Spells WHERE name LIKE ?', [search], function(err, rows, fields) {
         errorCheck(err, next);
         context.table = rows;
         context.search = req.body;
@@ -376,7 +406,48 @@ app.post('/addRemoveSpells', function(req, res, next) {
 
 // ALTER SPELLS
 app.get('/alterSpells', function(req, res, next) {
-    res.render('alterSpells.ejs');
+    var context = {result: null};
+    mysql.pool.query('SELECT spellID, name FROM Spells ORDER BY spellID ASC', function(err, rows, fields){
+        errorCheck(err, next);
+        context.spellIDs = rows;
+        mysql.pool.query('SELECT characterID, name FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+            errorCheck(err, next);
+            context.characterIDs = rows;
+            res.render('alterSpells.ejs', context);
+        });
+    });
+});
+
+app.post('/alterSpells', function(req, res, next) {
+    var context = {result: null};
+    mysql.pool.query('SELECT * FROM Spells WHERE spellID=?', [req.body.spellID], function(err, result){
+        errorCheck(err, next);
+        if (result.length === 1){
+            var curVals = result[0];
+        }
+        var sql = 'UPDATE Spells SET name=?, buyCost=?, upgradeCost=?, strength=?, characterID=? WHERE spellID=?'
+        var data = [
+            req.body.name || curVals.name,
+            req.body.buyCost || curVals.buyCost,
+            req.body.upgradeCost || curVals.upgradeCost,
+            req.body.strength || curVals.strength,
+            req.body.characterID || curVals.characterID,
+            req.body.spellID || curVals.spellID
+        ]
+        mysql.pool.query(sql, data, function(err, result) {
+            errorCheck(err, next);
+            context.result = 'Successfully Updated Spell';
+            mysql.pool.query('SELECT spellID, name FROM Spells ORDER BY spellID ASC', function(err, rows, fields){
+                errorCheck(err, next);
+                context.spellIDs = rows;
+                mysql.pool.query('SELECT characterID, name FROM Characters ORDER BY characterID ASC', function(err, rows, fields){
+                    errorCheck(err, next);
+                    context.characterIDs = rows;
+                    res.render('alterSpells.ejs', context);
+                });
+            });
+        });
+    });
 })
 
 // ENEMIES

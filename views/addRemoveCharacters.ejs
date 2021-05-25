@@ -32,9 +32,8 @@
             <div class="col-1">
                 <label for="regionID" class="form-label">Region ID:</label>
                 <select name="regionID" id="regionID" class="form-select">
-                    <option>null</option>
                     <% regionIDs.forEach(row => { %>
-                        <option value="<%= row.regionID %>"> <%= row.regionID %> </option>
+                        <option value="<%= row.regionID %>"> <%= row.regionID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
@@ -49,7 +48,7 @@
 
 <% if (result !== null) {%>
 <p> <%= result %></p>
-<% }; %>
+<% } %>
 
 <!-- Remove Character Form -->
 
@@ -61,7 +60,7 @@
                 <label for="charID" class="form-label">Character ID:</label>
                 <select name="characterID" id="charID" class="form-select" required>
                     <% characterIDs.forEach(row => { %>
-                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %>: <%= row.name%> </option>
                     <% }); %>
                 </select>
             </div>

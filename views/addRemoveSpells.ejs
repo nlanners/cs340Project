@@ -21,10 +21,10 @@
                 <input type="number" name="strength" id="strength" class="form-control" value="0" required>
             </div>
             <div class="col-2">
-                <label for="characterID" class="form-label">Give Spell to Character:</label>
+                <label for="characterID" class="form-label">Assign Spell to Character:</label>
                 <select name="characterID" id="characterID" class="form-select" required>
                     <% characterIDs.forEach(row => { %>
-                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
@@ -49,7 +49,7 @@
                 <label for="spellID" class="form-label">Spell ID:</label>
                 <select name="spellID" id="spellID" class="form-select" required>
                     <% spellIDs.forEach(row => { %>
-                        <option value="<%= row.spellID %>"> <%= row.spellID %> </option>
+                        <option value="<%= row.spellID %>"> <%= row.spellID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
