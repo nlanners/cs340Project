@@ -23,16 +23,16 @@
         <div class="row mb-3">
             <div class="col-1">
                 <label for="regionID" class="form-label">Region ID:</label>
-                <select class="form-control" id="regionID">
+                <select class="form-select" id="regionID">
                   <% regionIDs.forEach(function(region) { %>
-                    <option> <%= region.regionID %> </option>
+                    <option> <%= region.regionID %>: <%= region.name %> </option>
                  <% }) %>
                 </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')">Remove Region</button>
+                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')" id="removebutton">Remove Region</button>
             </div>
         </div>
     </fieldset>
@@ -45,6 +45,25 @@
             var payload = {name:null};
             payload.name = document.getElementById('newName').value;
             req.open('POST', '/addRemoveRegions?action=add');
+            req.setRequestHeader('Content-Type', 'application/json');
+
+            // PARSING RESPONSE SENT FROM SERVER
+            req.addEventListener('load', function() {
+                if(req.status >= 200 && req.status < 400){
+                    console.log('req sent')
+                }
+            });
+
+            // SENDING JSON STRING AS POST REQUEST
+            req.send(JSON.stringify(payload));
+        })
+    document.getElementById('removebutton').addEventListener('click', async function(event){
+            var req = new XMLHttpRequest();
+            // CREATING JSON OBJECT TO SEND AS POST REQUEST
+            var payload = {id:null};
+            payload.id = document.getElementById('regionID').value[0];
+            console.log(payload.id)
+            req.open('POST', '/addRemoveRegions?action=delete');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER

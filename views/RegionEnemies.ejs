@@ -5,17 +5,17 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="enemyID" class="form-label">Enemy ID:</label>
-                <select class="form-control" id="enemyID">
+                <select class="form-select" id="enemyID">
                   <% enemyIDs.forEach(function(enemy) { %>
-                    <option> <%= enemy.enemyID %> </option>
+                    <option> <%= enemy.enemyID %>: <%= enemy.name %> </option>
                  <% }) %>
                 </select>
             </div>
             <div class="col-2">
                 <label for="regionID" class="form-label">Region ID:</label>
-                <select class="form-control" id="regionID">
+                <select class="form-select" id="regionID">
                   <% regionIDs.forEach(function(region) { %>
-                    <option> <%= region.regionID %> </option>
+                    <option> <%= region.regionID %>: <%= region.name %> </option>
                  <% }) %>
                 </select>
             </div>
@@ -34,17 +34,25 @@
         <legend>Remove Enemy from Region</legend>
         <div class="row mb-3">
             <div class="col-2">
-                <label for="removeEnemyID" class="form-label">Enemy ID:</label>
-                <input type="number" id="removeEnemyID" class="form-control" required>
+                <label for="enemyID" class="form-label">Enemy ID:</label>
+                <select class="form-select" id="removeenemyID">
+                  <% enemyIDs.forEach(function(enemy) { %>
+                    <option> <%= enemy.enemyID %>: <%= enemy.name %> </option>
+                 <% }) %>
+                </select>
             </div>
             <div class="col-2">
-                <label for="removeRegionID" class="form-label">Region ID:</label>
-                <input type="number" id="removeRegionID" class="form-control" required>
+                <label for="regionID" class="form-label">Region ID:</label>
+                <select class="form-select" id="removeregionID">
+                  <% regionIDs.forEach(function(region) { %>
+                    <option> <%= region.regionID %>: <%= region.name %> </option>
+                 <% }) %>
+                </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger">Submit</button>
+                <button type="submit" class="btn btn-danger" id="removebutton">Submit</button>
             </div>
         </div>
     </fieldset>
@@ -54,11 +62,11 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-3">
-            <form>
+            <form method="POST" action="/RegionEnemies?regionSearch=true">
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-6">
-                            <input type="text" class="form-control" placeholder="Search Regions by Name...">
+                            <input type="text" class="form-control" placeholder="Search Regions by Name..." name="regionNameSearch">
                         </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-success">Search</button>
@@ -70,11 +78,11 @@
 
 <!-- Enemy Search Bar -->
         <div class="col-6">
-            <form>
+            <form method="POST" action="/RegionEnemies?enemySearch=true">
                 <fieldset>
                     <div class="row mb-3">
                         <div class="col-4">
-                            <input type="text" class="form-control" placeholder="Search Enemies by Name...">
+                            <input type="text" class="form-control" placeholder="Search Enemies by Name..." name="enemyNameSearch">
                         </div>
                         <div class="col-2">
                             <button type="submit" class="btn btn-success">Search</button>
@@ -120,6 +128,7 @@
                     <th>Health</th>
                     <th>Strength</th>
                     <th>Item ID</th>
+                    <th>Item Name</th>
                     <th>Drop Chance</th>
                     <th>Money</th>
                 </tr>
@@ -128,10 +137,11 @@
                 <% enemies.forEach(function(enemy) { %>
                     <tr>
                         <td> <%= enemy.enemyID %> </td>
-                        <td> <%= enemy.name %> </td>
+                        <td> <%= enemy.enemyName %> </td>
                         <td> <%= enemy.health %> </td>
                         <td> <%= enemy.strength %> </td>
                         <td> <%= enemy.itemID %> </td>
+                        <td> <%= enemy.itemName %> </td>
                         <td> <%= enemy.dropChance %> </td>
                         <td> <%= enemy.money %> </td>
                     </tr>
@@ -170,23 +180,43 @@
 <script type="text/javascript">
     
 document.getElementById('addbutton').addEventListener('click', async function(event){
-            var req = new XMLHttpRequest();
-            // CREATING JSON OBJECT TO SEND AS POST REQUEST
-            var payload = {enemyID: null, regionID: null};
-            payload.enemyID = document.getElementById('enemyID').value;
-            payload.regionID = document.getElementById('regionID').value;
-            req.open('POST', '/RegionEnemies?action=add');
-            req.setRequestHeader('Content-Type', 'application/json');
+    var req = new XMLHttpRequest();
+    // CREATING JSON OBJECT TO SEND AS POST REQUEST
+    var payload = {enemyID: null, regionID: null};
+    payload.enemyID = document.getElementById('enemyID').value[0];
+    payload.regionID = document.getElementById('regionID').value[0];
+    req.open('POST', '/RegionEnemies?action=add');
+    req.setRequestHeader('Content-Type', 'application/json');
 
-            // PARSING RESPONSE SENT FROM SERVER
-            req.addEventListener('load', function() {
-                if(req.status >= 200 && req.status < 400){
-                    console.log('req sent')
-                }
-            });
+    // PARSING RESPONSE SENT FROM SERVER
+    req.addEventListener('load', function() {
+        if(req.status >= 200 && req.status < 400){
+            console.log('req sent')
+        }
+    });
 
-            // SENDING JSON STRING AS POST REQUEST
-            req.send(JSON.stringify(payload));
-        })
+    // SENDING JSON STRING AS POST REQUEST
+    req.send(JSON.stringify(payload));
+})
 
+document.getElementById('removebutton').addEventListener('click', async function(event){
+    var req = new XMLHttpRequest();
+    // CREATING JSON OBJECT TO SEND AS POST REQUEST
+    var payload = {enemyID: null, regionID: null};
+    payload.enemyID = document.getElementById('removeenemyID').value[0];
+    payload.regionID = document.getElementById('removeregionID').value[0];
+    console.log(payload.enemyID, payload.regionID)
+    req.open('POST', '/RegionEnemies?action=delete');
+    req.setRequestHeader('Content-Type', 'application/json');
+
+    // PARSING RESPONSE SENT FROM SERVER
+    req.addEventListener('load', function() {
+        if(req.status >= 200 && req.status < 400){
+            console.log('req sent')
+        }
+    });
+
+    // SENDING JSON STRING AS POST REQUEST
+    req.send(JSON.stringify(payload));
+})
 </script>

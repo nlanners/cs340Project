@@ -22,8 +22,7 @@
                 <select class="form-select" id="itemID">
                     <option> null </option>
                   <% itemIDs.forEach(function(item) { %>
-
-                    <option> <%= item.itemID %> </option> 
+                    <option> <%= item.itemID %>: <%= item.name %> </option> 
                  <% }) %>
                 </select>
             </div>
@@ -53,14 +52,14 @@
                 <label for="enemyID" class="form-label">Enemy ID:</label>
                 <select class="form-select" id="enemyID">
                   <% enemyIDs.forEach(function(enemy) { %>
-                    <option> <%= enemy.enemyID %> </option>
+                    <option> <%= enemy.enemyID %>: <%= enemy.name %> </option>
                  <% }) %>
                 </select>
             </div>
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')">Remove Enemy</button>
+                <button type="submit" class="btn btn-danger" onclick="alert('Are you sure?')" id="removebutton">Remove Enemy</button>
             </div>
         </div>
     </fieldset>
@@ -94,5 +93,22 @@ document.getElementById('addbutton').addEventListener('click', async function(ev
             // SENDING JSON STRING AS POST REQUEST
             req.send(JSON.stringify(payload));
         })
+document.getElementById('removebutton').addEventListener('click', async function(event){
+            var req = new XMLHttpRequest();
+            // CREATING JSON OBJECT TO SEND AS POST REQUEST
+            var payload = {id:null};
+            payload.id = document.getElementById('enemyID').value;
+            req.open('POST', '/addRemoveEnemies?action=delete');
+            req.setRequestHeader('Content-Type', 'application/json');
 
+            // PARSING RESPONSE SENT FROM SERVER
+            req.addEventListener('load', function() {
+                if(req.status >= 200 && req.status < 400){
+                    console.log('req sent')
+                }
+            });
+
+            // SENDING JSON STRING AS POST REQUEST
+            req.send(JSON.stringify(payload));
+        })
 </script>
