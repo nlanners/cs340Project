@@ -7,16 +7,16 @@
             <div class="col-2">
                 <label for="itemID" class="form-label">Item ID:</label>
                 <select id="itemID" name="itemID" class="form-select" required>
-                    <% itemIDs.forEach(row => { %>
-                        <option value="<%= row.itemID %>"><%= row.itemID %></option>
+                    <% items.forEach(row => { %>
+                        <option value="<%= row.itemID %>"><%= row.itemID %>: <%= row.name %></option>
                     <% }); %>
                 </select>
             </div>
             <div class="col-2">
                 <label for="charID" class="form-label">Character ID:</label>
                 <select id="charID" name="characterID" class="form-select" required>
-                    <% characterIDs.forEach(row => { %>
-                        <option value="<%= row.characterID %>"><%= row.characterID %></option>
+                    <% characters.forEach(row => { %>
+                        <option value="<%= row.characterID %>"><%= row.characterID %>: <%= row.name %></option>
                     <% }); %>
                 </select>
             </div>
@@ -40,16 +40,16 @@
             <div class="col-2">
                 <label for="removeItemID" class="form-label">Item ID:</label>
                 <select id="removeItemID" name="removeItemID" class="form-select" required>
-                    <% itemIDs.forEach(row => { %>
-                        <option value="<%= row.itemID %>"> <%= row.itemID %> </option>
+                    <% items.forEach(row => { %>
+                        <option value="<%= row.itemID %>"> <%= row.itemID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
             <div class="col-2">
                 <label for="removeCharID" class="form-label">Character ID:</label>
                 <select id="removeCharID" name="removeCharID" class="form-select" required>
-                    <% characterIDs.forEach(row => { %>
-                        <option value="<%= row.characterID %>"> <%= row.characterID %> </option>
+                    <% characters.forEach(row => { %>
+                        <option value="<%= row.characterID %>"> <%= row.characterID %>: <%= row.name %> </option>
                     <% }); %>
                 </select>
             </div>
