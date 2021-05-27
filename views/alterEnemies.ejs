@@ -6,29 +6,38 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="enemyID" class="form-label">Enemy ID:</label>
-                <input type="number" id="enemyID" class="form-control" required>
+                <select class="form-select" id="enemyID">
+                  <% enemyIDs.forEach(function(enemy) { %>
+                    <option> <%= enemy.enemyID %>: <%= enemy.name %> </option>
+                 <% }) %>
+                </select>
             </div>
             <div class="col-4">
                 <label for="name" class="form-label">Name:</label>
-                <input type="text" id="name" class="form-control" placeholder="Enemy Name" maxlength="255">
+                <input type="text" id="name" class="form-control" placeholder="Enemy Name" maxlength="255" required>
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="health" class="form-label">Health:</label>
-                <input type="number" id="health" class="form-control">
+                <input type="number" id="health" class="form-control" required>
             </div>
             <div class="col-2">
                 <label for="strength" class="form-label">Strength:</label>
-                <input type="number" id="strength" class="form-control">
+                <input type="number" id="strength" class="form-control" required>
             </div>
             <div class="col-2">
                 <label for="itemID" class="form-label">Item ID:</label>
-                <input type="number" id="itemID" class="form-control">
+                <select class="form-select" id="itemID">
+                    <option> null </option>
+                  <% itemIDs.forEach(function(item) { %>
+                    <option> <%= item.itemID %>: <%= item.name %> </option> 
+                 <% }) %>
+                </select>
             </div>
             <div class="col-2">
                 <label for="dropChance" class="form-label">Drop Chance:</label>
-                <input type="number" id="dropChance" class="form-control">
+                <input type="number" step="0.01" min="0" max="1" id="dropChance" class="form-control">
             </div>
             <div class="col-2">
                 <label for="money" class="form-label">Money:</label>
@@ -37,8 +46,65 @@
         </div>
         <div class="row mb-2">
             <div class="col-2">
-                <button type="submit" class="btn btn-primary">Alter Enemy</button>
+                <button type="submit" class="btn btn-primary" id="button">Alter Enemy</button>
             </div>
         </div>
     </fieldset>
 </form>
+
+<script type="text/javascript">
+    
+document.getElementById('button').addEventListener('click', async function(event){
+            var req = new XMLHttpRequest();
+            // CREATING JSON OBJECT TO SEND AS POST REQUEST
+            var payload = {id:null, name:null, health:null, strength:null, itemID: null, dropChance: null, money: null};
+            payload.id = document.getElementById('enemyID').value[0];
+            payload.name = document.getElementById('name').value;
+            payload.health = document.getElementById('health').value;
+            payload.strength = document.getElementById('strength').value;
+            if (document.getElementById('itemID').value != 'null') {
+                payload.itemID = document.getElementById('itemID').value[0];
+            }
+            payload.dropChance = document.getElementById('dropChance').value;
+            payload.money = document.getElementById('money').value;
+            req.open('POST', '/alterEnemies');
+            req.setRequestHeader('Content-Type', 'application/json');
+
+            // PARSING RESPONSE SENT FROM SERVER
+            req.addEventListener('load', function() {
+                if(req.status >= 200 && req.status < 400){
+                    console.log('req sent')
+                }
+            });
+
+            // SENDING JSON STRING AS POST REQUEST
+            req.send(JSON.stringify(payload));
+        })
+
+// MAKE GET REQUEST TO POPULATE EDIT FORM VALUES
+document.getElementById('enemyID').addEventListener('change', async function(event){
+            let id = document.getElementById('enemyID').value[0]
+            console.log(id)
+            var req = new XMLHttpRequest();
+            req.open('GET', '/alterEnemies?id=' + id);
+            req.addEventListener('load', function(event) {
+                if (req.status >= 200 && req.status < 400) {
+                    var response = JSON.parse(req.responseText);
+                    var responseData = response["result"];
+                    document.getElementById('name').value = responseData[0].name
+                    document.getElementById('health').value = responseData[0].health
+                    document.getElementById('strength').value = responseData[0].strength
+                    if (responseData[0].itemID) {
+                        document.getElementById('itemID').value = responseData[0].itemID + ': ' + response['itemName']
+                    } else {
+                        document.getElementById('itemID').value = "null"
+                    }
+                    
+                    document.getElementById('dropChance').value = responseData[0].dropChance
+                    document.getElementById('money').value = responseData[0].money
+                    event.preventDefault();
+                }
+            })
+            req.send(null); // request for getting current data to populate values
+})
+</script>

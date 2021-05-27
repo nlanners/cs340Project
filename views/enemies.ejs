@@ -26,6 +26,7 @@
 	        <th>Health</th>
 	        <th>Strength</th>
 	        <th>Item ID</th>
+            <th>Item Name</th>
 	        <th>Drop Chance</th>
 	        <th>Money</th>
 	    </tr>
@@ -34,56 +35,14 @@
         <% results.forEach(function(enemy) { %>
             <tr>
                 <td> <%= enemy.enemyID %> </td>
-                <td> <%= enemy.name %> </td>
+                <td> <%= enemy.enemyName %> </td>
                 <td> <%= enemy.health %> </td>
                 <td> <%= enemy.strength %> </td>
                 <td> <%= enemy.itemID %> </td>
+                <td> <%= enemy.itemName %> </td>
                 <td> <%= enemy.dropChance %> </td>
                 <td> <%= enemy.money %> </td>
-                <!--
-                <% if (enemy.itemID) { %>
-                    <td> <%= enemy.itemID %> </td>
-                <% } else { %>
-                    <td>null<td>
-                <% } %>
-
-                <% if (enemy.dropChance) { %>
-                    <td> <%= enemy.dropChance %> </td>
-                <% } else { %>
-                    <td>null<td>
-                <% } %>
-
-                <% if (enemy.money) { %>
-                    <td> <%= enemy.money %> </td>
-                <% } else { %>
-                    <td>null<td>
-                <% } %>
-                -->
             </tr>
         <% }) %>
     </tbody>
 </table>
-
-<!--
-<script>
-    document.getElementById('search').addEventListener('click', async function(event){
-            var req = new XMLHttpRequest();
-            // CREATING JSON OBJECT TO SEND AS POST REQUEST
-            var payload = {name:null};
-            payload.name = document.getElementById('name').value;
-            req.open('POST', '/enemies');
-            req.setRequestHeader('Content-Type', 'application/json');
-
-            // PARSING RESPONSE SENT FROM SERVER
-            req.addEventListener('load', function() {
-                if(req.status >= 200 && req.status < 400){
-                    console.log('req sent')
-                }
-            });
-
-            // SENDING JSON STRING AS POST REQUEST
-            req.send(JSON.stringify(payload));
-            event.preventDefault()
-        })
-</script>
--->
