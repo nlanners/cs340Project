@@ -149,10 +149,10 @@ app.post('/alterCharacters', function(req, res, next) {
         mysql.pool.query(sql, data, function (err, result) {
             errorCheck(err, next);
             context.result = 'Successfully Updated Character';
-            mysql.pool.query('SELECT characterID FROM Characters ORDER BY characterID ASC', function (err, rows, fields) {
+            mysql.pool.query('SELECT characterID, name FROM Characters ORDER BY characterID ASC', function (err, rows, fields) {
                 errorCheck(err, next);
                 context.characterIDs = rows;
-                mysql.pool.query('SELECT regionID FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
+                mysql.pool.query('SELECT regionID, name FROM Regions ORDER BY regionID ASC', function (err, rows, fields) {
                     errorCheck(err, next);
                     context.regionIDs = rows;
                     res.render('alterCharacters.ejs', context);
