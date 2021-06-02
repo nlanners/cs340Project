@@ -18,25 +18,25 @@
             </div>
             <div class="col-2">
                 <label for="health" class="form-label">Health</label>
-                <input type="number" name="health" id="health" class="form-control">
+                <input type="number" name="health" id="health" class="form-control" min="0">
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-2">
                 <label for="enemiesKilled" class="form-label">Enemies Killed</label>
-                <input type="number" name="enemiesKilled" id="enemiesKilled" class="form-control">
+                <input type="number" name="enemiesKilled" id="enemiesKilled" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="magic" class="form-label">Magic Points</label>
-                <input type="number" name="magic" id="magic" class="form-control">
+                <input type="number" name="magic" id="magic" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="strength" class="form-label">Strength</label>
-                <input type="number" name="strength" id="strength" class="form-control">
+                <input type="number" name="strength" id="strength" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="money" class="form-label">Money</label>
-                <input type="number" name="money" id="money" class="form-control">
+                <input type="number" name="money" id="money" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="regionID" class="form-label">Region ID:</label>
@@ -59,3 +59,56 @@
 <% if (result !== null) {%>
     <h4> <%= result %></h4>
 <% } %>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', autofill);
+
+    document.getElementById('charID').addEventListener('change', async function (event) {
+        var payload = {}
+        payload.charID = document.getElementById('charID').value;
+        fetch('/alterCharacters/autofill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            document.getElementById('name').value = data.char.name;
+            document.getElementById('health').value = data.char.health;
+            document.getElementById('enemiesKilled').value = data.char.enemiesKilled;
+            document.getElementById('magic').value = data.char.magic;
+            document.getElementById('strength').value = data.char.strength;
+            document.getElementById('money').value = data.char.money;
+            document.getElementById('regionID').value = data.char.regionID;
+            event.preventDefault();
+        }).catch((error) => {
+            console.error('Error: ', error);
+        });
+    })
+
+    function autofill() {
+        var payload = {}
+        payload.charID = document.getElementById('charID').value;
+        fetch('/alterCharacters/autofill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            document.getElementById('name').value = data.char.name;
+            document.getElementById('health').value = data.char.health;
+            document.getElementById('enemiesKilled').value = data.char.enemiesKilled;
+            document.getElementById('magic').value = data.char.magic;
+            document.getElementById('strength').value = data.char.strength;
+            document.getElementById('money').value = data.char.money;
+            document.getElementById('regionID').value = data.char.regionID;
+        }).catch((error) => {
+            console.error('Error: ', error);
+        });
+    }
+</script>

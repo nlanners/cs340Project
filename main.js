@@ -61,7 +61,7 @@ app.get('/', function(req, res, next){
 // CHARACTERS
 app.get('/characters', function(req, res, next) {
     var context = {};
-    mysql.pool.query('SELECT * FROM Characters', function(err, rows, fields){
+    mysql.pool.query('SELECT C.*, R.name as regionName FROM Characters C JOIN Regions R ON C.regionID = R.regionID', function(err, rows, fields){
         errorCheck(err, next);
         context.table = rows;
         res.render('characters.ejs', context);
@@ -71,7 +71,7 @@ app.get('/characters', function(req, res, next) {
 app.post('/characters', function(req, res, next) {
     var context = {};
     var search = '%' + req.body.search + '%';
-    mysql.pool.query('SELECT * FROM Characters WHERE name LIKE ?', [search], function(err, rows, fields) {
+    mysql.pool.query('SELECT C.*, R.name as regionName FROM Characters C JOIN Regions R ON C.regionID = R.regionID WHERE C.name LIKE ?', [search], function(err, rows, fields) {
         errorCheck(err, next);
         context.table = rows;
         context.search = req.body;
@@ -159,6 +159,15 @@ app.post('/alterCharacters', function(req, res, next) {
                 });
             });
         });
+    });
+});
+
+app.post('/alterCharacters/autofill', function(req, res, next) {
+    mysql.pool.query('SELECT * FROM Characters WHERE characterID=?', [req.body.charID], function(err, rows, fields) {
+        errorCheck(err, next);
+        var context = {};
+        context.char = rows[0];
+        res.send(context);
     });
 });
 
@@ -381,7 +390,7 @@ app.post('/characterItems', function(req, res, next) {
 // SPELLS
 app.get('/spells', function(req, res, next) {
     var context = {}
-    mysql.pool.query('SELECT * FROM Spells', function(err, rows, fields){
+    mysql.pool.query('SELECT S.*, C.name as characterName FROM Spells S JOIN Characters C ON S.characterID = C.characterID', function(err, rows, fields){
         errorCheck(err, next);
         context.table = rows;
         res.render('spells.ejs', context);
@@ -391,7 +400,7 @@ app.get('/spells', function(req, res, next) {
 app.post('/spells', function(req, res, next) {
     var context = {};
     var search = '%' + req.body.search +'%';
-    mysql.pool.query('SELECT * FROM Spells WHERE name LIKE ?', [search], function(err, rows, fields) {
+    mysql.pool.query('SELECT S.*, C.name as characterName FROM Spells S JOIN Characters C ON S.characterID = C.characterID WHERE S.name LIKE ?', [search], function(err, rows, fields) {
         errorCheck(err, next);
         context.table = rows;
         context.search = req.body;
@@ -477,6 +486,15 @@ app.post('/alterSpells', function(req, res, next) {
                 });
             });
         });
+    });
+})
+
+app.post('/alterSpells/autofill', function(req, res, next) {
+    mysql.pool.query('SELECT * FROM Spells WHERE spellID=?', [req.body.spellID], function(err, rows, fields) {
+        errorCheck(err, next);
+        var context = {};
+        context.spell = rows[0];
+        res.send(context);
     });
 })
 

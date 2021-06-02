@@ -20,15 +20,15 @@
         <div class="row mb-3">
             <div class="col-2">
                 <label for="buyCost" class="form-label">Purchase Cost:</label>
-                <input type="number" name="buyCost" id="buyCost" class="form-control">
+                <input type="number" name="buyCost" id="buyCost" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="upgradeCost" class="form-label">Upgrade Cost:</label>
-                <input type="number" name="upgradeCost" id="upgradeCost" class="form-control">
+                <input type="number" name="upgradeCost" id="upgradeCost" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="strength" class="form-label">Strength:</label>
-                <input type="number" name="strength" id="strength" class="form-control">
+                <input type="number" name="strength" id="strength" class="form-control" min="0">
             </div>
             <div class="col-2">
                 <label for="character" class="form-label">Character ID:</label>
@@ -51,3 +51,53 @@
 <% if (result !== null) {%>
     <h4> <%= result %></h4>
 <% } %>
+
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', autofill);
+
+    document.getElementById('spellID').addEventListener('change', async function (event) {
+        var payload = {}
+        payload.spellID = document.getElementById('spellID').value;
+        fetch('/alterSpells/autofill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            document.getElementById('name').value = data.spell.name;
+            document.getElementById('buyCost').value = data.spell.buyCost;
+            document.getElementById('upgradeCost').value = data.spell.upgradeCost;
+            document.getElementById('strength').value = data.spell.strength;
+            document.getElementById('characterID').value = data.spell.characterID;
+            event.preventDefault();
+        }).catch((error) => {
+            console.error('Error: ', error);
+        });
+    })
+
+    function autofill() {
+        var payload = {}
+        payload.spellID = document.getElementById('spellID').value;
+        fetch('/alterSpells/autofill', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            document.getElementById('name').value = data.spell.name;
+            document.getElementById('buyCost').value = data.spell.buyCost;
+            document.getElementById('upgradeCost').value = data.spell.upgradeCost;
+            document.getElementById('strength').value = data.spell.strength;
+            document.getElementById('characterID').value = data.spell.characterID;
+            event.preventDefault();
+        }).catch((error) => {
+            console.error('Error: ', error);
+        });
+    }
+</script>
