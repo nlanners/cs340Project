@@ -1,8 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('../public/js/sqlPool.js');
-var functions = require('./functions');
-
+var functions = require('../functions');
 
 // ITEMS
 router.get('/', function(req, res, next) {
