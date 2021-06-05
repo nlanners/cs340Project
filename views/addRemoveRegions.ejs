@@ -25,7 +25,7 @@
                 <label for="regionID" class="form-label">Region ID:</label>
                 <select class="form-select" id="regionID">
                   <% regionIDs.forEach(function(region) { %>
-                    <option> <%= region.regionID %>: <%= region.name %> </option>
+                    <option value="<%= region.regionID %>"> <%= region.regionID %>: <%= region.name %> </option>
                  <% }) %>
                 </select>
             </div>
@@ -44,7 +44,7 @@
             // CREATING JSON OBJECT TO SEND AS POST REQUEST
             var payload = {name:null};
             payload.name = document.getElementById('newName').value;
-            req.open('POST', '/addRemoveRegions?action=add');
+            req.open('POST', '/regions/addRemoveRegions?action=add');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER
@@ -61,9 +61,9 @@
             var req = new XMLHttpRequest();
             // CREATING JSON OBJECT TO SEND AS POST REQUEST
             var payload = {id:null};
-            payload.id = document.getElementById('regionID').value[0];
+            payload.id = document.getElementById('regionID').value;
             console.log(payload.id)
-            req.open('POST', '/addRemoveRegions?action=delete');
+            req.open('POST', '/regions/addRemoveRegions?action=delete');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER

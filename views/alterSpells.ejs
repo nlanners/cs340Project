@@ -1,6 +1,6 @@
 <!-- Alter Spell Form -->
 
-<form action="alterSpells" method="post">
+<form action="/spells/alterSpells" method="post">
     <fieldset class="form-control">
         <legend>Alter Spell</legend>
         <div class="row mb-3">
@@ -58,7 +58,7 @@
     document.getElementById('spellID').addEventListener('change', async function (event) {
         var payload = {}
         payload.spellID = document.getElementById('spellID').value;
-        fetch('/alterSpells/autofill', {
+        fetch('/spells/alterSpells/autofill', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -81,7 +81,7 @@
     function autofill() {
         var payload = {}
         payload.spellID = document.getElementById('spellID').value;
-        fetch('/alterSpells/autofill', {
+        fetch('/spells/alterSpells/autofill', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
