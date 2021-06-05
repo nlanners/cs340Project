@@ -7,7 +7,7 @@
              <label for="regionID" class="form-label">Region ID:</label>
                 <select class="form-select" id="regionID">
                   <% regionIDs.forEach(function(region) { %>
-                    <option> <%= region.regionID %>: <%= region.name %> </option>
+                    <option value="<%= region.regionID %>"> <%= region.regionID %>: <%= region.name %> </option>
                  <% }) %>
                 </select>
             </div>
@@ -30,9 +30,9 @@ document.getElementById('button').addEventListener('click', async function(event
             var req = new XMLHttpRequest();
             // CREATING JSON OBJECT TO SEND AS POST REQUEST
             var payload = {id:null, name:null};
-            payload.id = document.getElementById('regionID').value[0];
+            payload.id = document.getElementById('regionID').value;
             payload.name = document.getElementById('name').value;
-            req.open('POST', '/alterRegions');
+            req.open('POST', '/regions/alterRegions');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER
@@ -48,10 +48,10 @@ document.getElementById('button').addEventListener('click', async function(event
 
 // MAKE GET REQUEST TO POPULATE EDIT FORM VALUES
 document.getElementById('regionID').addEventListener('change', async function(event){
-            let id = document.getElementById('regionID').value[0]
+            let id = document.getElementById('regionID').value
             console.log(id)
             var req = new XMLHttpRequest();
-            req.open('GET', '/alterRegions?id=' + id);
+            req.open('GET', '/regions/alterRegions?id=' + id);
             req.addEventListener('load', function(event) {
                 if (req.status >= 200 && req.status < 400) {
                     var response = JSON.parse(req.responseText);

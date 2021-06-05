@@ -43,7 +43,7 @@ function removeAllChildNodes(parent) {
 }
 
 function fetchRequest(payload, action) {
-    fetch('/characterItems?action=' + action, {
+    fetch('/items/characterItems?action=' + action, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

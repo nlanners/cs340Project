@@ -22,7 +22,7 @@
                 <select class="form-select" id="itemID">
                     <option> null </option>
                   <% itemIDs.forEach(function(item) { %>
-                    <option> <%= item.itemID %>: <%= item.name %> </option> 
+                    <option value="<%= item.itemID %>"> <%= item.itemID %>: <%= item.name %> </option>
                  <% }) %>
                 </select>
             </div>
@@ -52,7 +52,7 @@
                 <label for="enemyID" class="form-label">Enemy ID:</label>
                 <select class="form-select" id="enemyID">
                   <% enemyIDs.forEach(function(enemy) { %>
-                    <option> <%= enemy.enemyID %>: <%= enemy.name %> </option>
+                    <option value="<%= enemy.enemyID %>"> <%= enemy.enemyID %>: <%= enemy.name %> </option>
                  <% }) %>
                 </select>
             </div>
@@ -80,7 +80,7 @@ document.getElementById('addbutton').addEventListener('click', async function(ev
             }
             payload.dropChance = document.getElementById('dropChance').value;
             payload.money = document.getElementById('money').value;
-            req.open('POST', '/addRemoveEnemies?action=add');
+            req.open('POST', '/enemies/addRemoveEnemies?action=add');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER
@@ -98,7 +98,7 @@ document.getElementById('removebutton').addEventListener('click', async function
             // CREATING JSON OBJECT TO SEND AS POST REQUEST
             var payload = {id:null};
             payload.id = document.getElementById('enemyID').value;
-            req.open('POST', '/addRemoveEnemies?action=delete');
+            req.open('POST', '/enemies/addRemoveEnemies?action=delete');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER

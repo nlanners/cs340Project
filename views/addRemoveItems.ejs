@@ -57,7 +57,7 @@
             payload.name = document.getElementById('newName').value;
             payload.damage = document.getElementById('damage').value;
             payload.cost = document.getElementById('cost').value;
-            req.open('POST', '/addRemoveItems?action=add');
+            req.open('POST', '/items/addRemoveItems?action=add');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER
@@ -75,7 +75,7 @@
             // CREATING JSON OBJECT TO SEND AS POST REQUEST
             var payload = {id:null};
             payload.id = document.getElementById('itemID').value;
-            req.open('POST', '/addRemoveItems?action=delete');
+            req.open('POST', '/items/addRemoveItems?action=delete');
             req.setRequestHeader('Content-Type', 'application/json');
 
             // PARSING RESPONSE SENT FROM SERVER
