@@ -83,8 +83,14 @@ WHERE spellID = :spellID;
 -- select from Items for Items page
 SELECT * FROM Items;
 
+-- select from Items for filtering
+SELECT * FROM Items WHERE name LIKE '%:name%'
+
 -- select attributes for CharacterItems page
 SELECT itemID, name, damage, cost FROM Items;
+
+-- select item IDs and names for drop down menu
+SELECT itemID, name FROM Items
 
 -- add item
 -- using variables from Add Item form
@@ -103,7 +109,7 @@ SELECT * FROM Items WHERE itemID = :itemID;
 -- variables from Alter Item form
 -- current values from database
 UPDATE Items
-SET name = :itemName || :currentItemNameValue, damage = :damage || :currentDamageValue, cost = :cost || :currentCostValue
+SET name = :itemName, damage = :damage, cost = :cost
 WHERE itemID = :itemID;
 
 -- assign Item to Character
@@ -129,6 +135,9 @@ ORDER BY C.characterID ASC;
 -- select from Regions for Regions page
 SELECT * FROM Regions;
 
+-- select from Regions for filtering 
+SELECT * FROM Regions WHERE name LIKE '% :name %'
+
 -- select attributes for RegionEnemies page
 SELECT regionID, name FROM Regions;
 
@@ -149,7 +158,7 @@ SELECT * FROM Regions WHERE regionID = :regionID
 -- using variables from Alter Region form
 -- or current values from database
 UPDATE Regions
-SET name = :regionName || :currentNameValue
+SET name = :regionName
 WHERE regionID = :regionID;
 
 -- REGION ENEMIES
@@ -174,11 +183,19 @@ DELETE FROM RegionEnemies WHERE enemyID = :enemyID AND regionID = :regionID;
 
 -- ENEMIES
 
--- select from Enemies for Enemies page
-SELECT * FROM Enemies;
+-- displaying all Enemies and the names of their Items
+SELECT E.enemyID, E.name AS 'enemyName', E.health, E.strength, E.itemID, E.dropChance, E.money, I.name AS 'itemName' 
+FROM Enemies E 
+LEFT JOIN Items I ON E.itemID = I.itemID
+
+-- select from Enemies for filtering 
+SELECT * FROM Enemies WHERE name LIKE '% :name %'
 
 -- select attributes for RegionEnemies page
 SELECT enemyID, name, health, strength, itemID, dropChance, money FROM Enemies;
+
+-- populating Enemy ID dropdown menu
+SELECT enemyID, name FROM Enemies
 
 -- add enemy
 -- using variables from Add Enemy form
@@ -197,7 +214,7 @@ SELECT * FROM Enemies WHERE enemyID = :enemyID;
 -- using variables from Alter Enemy form
 -- or current values from database
 UPDATE Enemies
-SET name = :enemyName || :currentEnemyNameValue, health = :health || :currentHealthValue, strength = :strength || :currentStrengthValue, itemID = :itemID || :currentItemIDValue, dropChance = :dropChance || :currentDropChanceValue, money = :money || :currentMoneyValue 
+SET name = :enemyName, health = :health, strength = :strength, itemID = :itemID, dropChance = :dropChance, money = :money 
 WHERE enemyID = :enemyID;
 
 
