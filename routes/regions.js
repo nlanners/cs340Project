@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('../public/js/sqlPool.js');
+router.use(express.static('public'));
 
 // REGIONS
 router.get('/', function(req, res, next) {
@@ -46,12 +47,16 @@ router.get('/addRemoveRegions', function(req, res, next) {
 router.post('/addRemoveRegions', function(req, res, next) {
     // ACTION HANDLER FOR INSERT
     if (req.query.action == "add") {
-        mysql.pool.query("INSERT INTO Regions (name) VALUES (?)", [req.body["name"]], function(err, result){
-            if(err){
-                console.log(err);
-                return;
-            }
-        });
+        if (!req.body.name.trim().length) {
+            console.log('Region not created. Please enter a name.')
+        } else {
+            mysql.pool.query("INSERT INTO Regions (name) VALUES (?)", [req.body["name"]], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
+        }
         // ACTION HANDLER FOR DELETE
     } else if (req.query.action == "delete") {
         mysql.pool.query("DELETE FROM Regions WHERE regionID = ?", [req.body["id"]], function(err, result){
@@ -102,12 +107,8 @@ router.get('/alterRegions', function(req, res, next) {
 router.post('/alterRegions', function(req, res, next) {
     let regionData = {}
     // UPDATING ROW
-    mysql.pool.query("UPDATE Regions SET name=? WHERE regionID=? ", [req.body['name'], req.body['id']], function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        // POPULATING DROP DOWN ID MENU
+    if (!req.body.name.trim().length) {
+        console.log('Region not updated. Please enter a name.');
         mysql.pool.query('SELECT regionID, name FROM Regions', function(err, rows, fields){
             if(err){
                 console.log(err);
@@ -116,7 +117,23 @@ router.post('/alterRegions', function(req, res, next) {
             regionData.regionIDs = rows;
             res.render('alterRegions.ejs', regionData);
         });
-    });
+    } else {
+        mysql.pool.query("UPDATE Regions SET name=? WHERE regionID=? ", [req.body['name'], req.body['id']], function (err, result) {
+            if (err) {
+                next(err);
+                return;
+            }
+            // POPULATING DROP DOWN ID MENU
+            mysql.pool.query('SELECT regionID, name FROM Regions', function (err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                regionData.regionIDs = rows;
+                res.render('alterRegions.ejs', regionData);
+            });
+        });
+    }
 })
 
 

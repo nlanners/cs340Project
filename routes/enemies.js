@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('../public/js/sqlPool.js');
+router.use(express.static('public'));
 
 // ENEMIES
 router.get('/', function(req, res, next) {
@@ -54,20 +55,24 @@ router.get('/addRemoveEnemies', function(req, res, next) {
 router.post('/addRemoveEnemies', function(req, res, next) {
     // ACTION HANDLER FOR INSERT
     if (req.query.action == "add") {
-        let dropChance = null
-        let money = null
-        if (req.body['dropChance']) {
-            dropChance = req.body['dropChance']
-        }
-        if (req.body['money']) {
-            money = req.body['money']
-        }
-        mysql.pool.query("INSERT INTO Enemies (name, health, strength, itemID, dropChance, money) VALUES (?, ?, ?, ?, ?, ?)", [req.body["name"], req.body["health"], req.body["strength"], req.body["itemID"], dropChance, money], function(err, result){
-            if(err){
-                console.log(err);
-                return;
+        if (!req.body.name.trim().length) {
+            console.log('Enemy not added. Please enter a name.')
+        } else {
+            let dropChance = null
+            let money = null
+            if (req.body['dropChance']) {
+                dropChance = req.body['dropChance']
             }
-        });
+            if (req.body['money']) {
+                money = req.body['money']
+            }
+            mysql.pool.query("INSERT INTO Enemies (name, health, strength, itemID, dropChance, money) VALUES (?, ?, ?, ?, ?, ?)", [req.body["name"], req.body["health"], req.body["strength"], req.body["itemID"], dropChance, money], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
+        }
         // ACTION HANDLER FOR DELETE
     } else if (req.query.action == "delete") {
 
@@ -154,12 +159,8 @@ router.post('/alterEnemies', function(req, res, next) {
     if (req.body['money']) {
         money = req.body['money']
     }
-    mysql.pool.query("UPDATE Enemies SET name=?, health=?, strength=?, itemID=?, dropChance=?, money=? WHERE enemyID=? ", [req.body['name'], req.body["health"], req.body["strength"], req.body["itemID"], dropChance, money, req.body['id']], function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        // POPULATING DROP DOWN ENEMY ID MENU FOR DELETE
+    if (!req.body.name.trim().length) {
+        console.log('Enemy not updated. Please enter a name.');
         mysql.pool.query('SELECT enemyID, name FROM Enemies', function(err, rows, fields){
             if(err){
                 console.log(err);
@@ -176,7 +177,31 @@ router.post('/alterEnemies', function(req, res, next) {
                 res.render('alterEnemies.ejs', enemyData)
             });
         });
-    });
+    } else {
+        mysql.pool.query("UPDATE Enemies SET name=?, health=?, strength=?, itemID=?, dropChance=?, money=? WHERE enemyID=? ", [req.body['name'], req.body["health"], req.body["strength"], req.body["itemID"], dropChance, money, req.body['id']], function (err, result) {
+            if (err) {
+                next(err);
+                return;
+            }
+            // POPULATING DROP DOWN ENEMY ID MENU FOR DELETE
+            mysql.pool.query('SELECT enemyID, name FROM Enemies', function (err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                enemyData.enemyIDs = rows;
+                // POPULATING ITEM ID MENU FOR INSERT
+                mysql.pool.query('SELECT itemID, name FROM Items', function (err, rows, fields) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    enemyData.itemIDs = rows;
+                    res.render('alterEnemies.ejs', enemyData)
+                });
+            });
+        });
+    }
 })
 
 router.get('/regionEnemies', function (req, res, next) {
