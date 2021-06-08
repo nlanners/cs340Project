@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('../public/js/sqlPool.js');
 var functions = require('../functions');
+router.use(express.static('public'));
 
 // ITEMS
 router.get('/', function(req, res, next) {
@@ -60,12 +61,16 @@ router.get('/addRemoveItems', function(req, res, next) {
 router.post('/addRemoveItems', function(req, res, next) {
     // ACTION HANDLER FOR INSERT
     if (req.query.action == "add") {
-        mysql.pool.query("INSERT INTO Items (name, damage, cost) VALUES (?, ?, ?)", [req.body["name"], req.body["damage"], req.body["cost"]], function(err, result){
-            if(err){
-                console.log(err);
-                return;
-            }
-        });
+        if (!req.body.name.trim().length) {
+            console.log('Item not created. Please enter a name.')
+        } else {
+            mysql.pool.query("INSERT INTO Items (name, damage, cost) VALUES (?, ?, ?)", [req.body["name"], req.body["damage"], req.body["cost"]], function (err, result) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+            });
+        }
         // ACTION HANDLER FOR DELETE
     } else if (req.query.action == "delete") {
         mysql.pool.query("DELETE FROM Items WHERE itemID = ? ", [req.body["id"]],function(err, result){
@@ -115,21 +120,33 @@ router.get('/alterItems', function(req, res, next) {
 
 router.post('/alterItems', function(req, res, next) {
     let itemData = {}
-    mysql.pool.query("UPDATE Items SET name=?, damage=?, cost=? WHERE itemID=? ", [req.body["name"], req.body["damage"], req.body["cost"], req.body['id']], function(err, result){
-        if(err){
-            next(err);
-            return;
-        }
-        // POPULATING DROP DOWN ID MENU
-        mysql.pool.query('SELECT itemID, name FROM Items', function(err, rows, fields){
-            if(err){
+    if (!req.body.name.trim().length) {
+        console.log('Item not updated. Please enter a name.');
+        mysql.pool.query('SELECT itemID, name FROM Items', function (err, rows, fields) {
+            if (err) {
                 console.log(err);
                 return;
             }
             itemData.itemIDs = rows;
             res.render('alterItems.ejs', itemData);
         });
-    });
+    } else {
+        mysql.pool.query("UPDATE Items SET name=?, damage=?, cost=? WHERE itemID=? ", [req.body["name"], req.body["damage"], req.body["cost"], req.body['id']], function (err, result) {
+            if (err) {
+                next(err);
+                return;
+            }
+            // POPULATING DROP DOWN ID MENU
+            mysql.pool.query('SELECT itemID, name FROM Items', function (err, rows, fields) {
+                if (err) {
+                    console.log(err);
+                    return;
+                }
+                itemData.itemIDs = rows;
+                res.render('alterItems.ejs', itemData);
+            });
+        });
+    }
 })
 // CHARACTER ITEMS INTERSECTION TABLE
 router.get('/characterItems', function(req, res, next) {

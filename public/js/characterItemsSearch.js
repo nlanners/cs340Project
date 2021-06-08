@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', bindButtons);
 
 function bindButtons() {
+    console.log('loaded');
     document.getElementById('charSearch').addEventListener('click', function(event) {
         var payload = {};
         payload.charName = document.getElementById('charName').value;
